@@ -8,7 +8,12 @@ application/config/database.php
 application/logs/*
 !application/logs/index.html
 
+application/views/template
+!application/views/template/production/*
+
 !application/*/.htaccess
+
+
 
 composer.lock
 tests/mocks/database/ci_test.sqlite
