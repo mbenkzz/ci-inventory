@@ -23,8 +23,8 @@ class Welcome extends CI_Controller {
 		$this->load->view('welcome_message');
 	}
 
-	public function dashboard()
+	public function template()
 	{
-		$this->load->view('admin/dashboard/index');
+		$this->load->view('admin/template');
 	}
 }
