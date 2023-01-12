@@ -62,5 +62,9 @@ $route['admin_dapur/logout'] = 'authController/logout';
 
 $route['admin_dapur/dashboard'] = 'dashboardController/index';
 
+$route['admin_dapur/inventory'] = 'inventoryController/index';
+
+$route['admin_dapur/user'] = 'userController/index';
+
 
 
