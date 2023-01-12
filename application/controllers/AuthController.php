@@ -8,8 +8,19 @@ class AuthController extends CI_Controller {
 		parent::__construct();
 		$this->load->model('User', 'user');
 	}
+
+	public function redirect_admin() {
+		if(getSession())
+			redirect( admin_url('dashboard') );
+		else
+			redirect( admin_url('login') );
+	}
     
     public function login() {
+		if(getSession()) {
+			redirect( admin_url('dashboard') );
+			die;
+		}
         $this->load->view('admin/auth/login');
     }
 
@@ -18,20 +29,21 @@ class AuthController extends CI_Controller {
 			$query = $this->user->filtered_user(["username" => $this->input->post("username"), "password" => md5($this->input->post("password"))])->row();
 
 			if(!empty($query)) {
-				echo "OK";
+				echo json_response('success', "Sukses Login");
 
 				$this->session->set_userdata(["logged_user" => $query]);
 				$_SESSION['logged_user'] = $query;
 			}
 			else {
-				echo "Username atau Password Salah";
+				echo json_response('error', "Username atau Password salah");
 			}
 		} catch (\Exception $e) {
-			echo $e->getMessage();
+			echo json_response('error', $e->getMessage());
 		}
     }
 
     public function logout() {
 		$this->session->unset_userdata('logged_user');
+		redirect( admin_url('login') );
     }
 }

@@ -55,11 +55,12 @@ $route['translate_uri_dashes'] = FALSE;
 
 $route['template'] = 'welcome/template';
 
-$route['admin_dapur'] = 'welcome/redirect_admin'; // go to dashboard if auth else login
+$route['admin_dapur'] = 'authController/redirect_admin'; // go to dashboard if auth else login
 $route['admin_dapur/login']['GET'] = 'authController/login';
 $route['admin_dapur/login']['POST'] = 'authController/login_process';
 $route['admin_dapur/logout'] = 'authController/logout';
 
+$route['admin_dapur/dashboard'] = 'dashboardController/index';
 
 
 

@@ -6,11 +6,11 @@ class User extends CI_Model {
 		"id",
 		"username",
 		"password",
-        "nama"
+        "fullname"
 	);
 
 	public $searchColumn = array(
-		"nama",
+		"fullname",
 		"username",
 	);
 

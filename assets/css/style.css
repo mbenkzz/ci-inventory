@@ -10233,6 +10233,7 @@ body {
 }
 .sb-sidenav-dark .sb-sidenav-menu .nav-link.active {
   color: #fff;
+  background-color: #343a40;
 }
 .sb-sidenav-dark .sb-sidenav-menu .nav-link.active .sb-nav-link-icon {
   color: #fff;
@@ -10268,4 +10269,14 @@ body {
 }
 .sb-sidenav-light .sb-sidenav-footer {
   background-color: #e9ecef;
+}
+
+/* CUSTOM */
+
+.cursor-default {
+  cursor: default;
+}
+
+.cursor-pointer {
+  cursor: pointer;
 }

@@ -13,3 +13,8 @@ function show_login() {
 	$that = &get_instance();
 	return $that->load->view("admin/login", ["title"=> "Digital MTQ"]);
 }
+
+function check_auth() {
+	if(!getSession())
+		show_login();
+}
