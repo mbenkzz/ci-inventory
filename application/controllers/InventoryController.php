@@ -9,6 +9,7 @@ class InventoryController extends CI_Controller {
 	}
 
     public function index() {
-        $this->load->view('admin/inventory/index');
+		$data['title'] = 'Inventaris - Dapurbude';
+        $this->load->view('admin/inventory/index', $data);
     }
 }

@@ -65,6 +65,7 @@ $route['admin_dapur/dashboard'] = 'dashboardController/index';
 $route['admin_dapur/inventory'] = 'inventoryController/index';
 
 $route['admin_dapur/user'] = 'userController/index';
+$route['admin_dapur/user/add']['GET'] = 'userController/create';
 
 
 
