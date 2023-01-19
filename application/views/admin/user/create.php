@@ -21,19 +21,19 @@
                             <form id="user_form">
                                 <div class="form-group">
                                     <label class="mb-1 font-size-20" for="inputUsername">Username</label>
-                                    <input class="form-control py-4" id="inputUsername" type="text" placeholder="Masukkan username" />
+                                    <input class="form-control py-4" id="inputUsername" name="username" type="text" placeholder="Masukkan username" />
                                 </div>
                                 <div class="form-group">
                                     <label class="mb-1 font-size-20" for="inputPassword">Password</label>
-                                    <input class="form-control py-4" id="inputPassword" type="password" placeholder="Masukkan password" />
+                                    <input class="form-control py-4" id="inputPassword" name="password" type="password" placeholder="Masukkan password" />
                                 </div>
                                 <div class="form-group">
                                     <label class="mb-1 font-size-20" for="inputNama">Nama</label>
-                                    <input class="form-control py-4" id="inputNama" type="text" placeholder="Masukkan nama" />
+                                    <input class="form-control py-4" id="inputNama" name="fullname" type="text" placeholder="Masukkan nama" />
                                 </div>
                                 <div class="form-group">
                                     <label class="mb-1 font-size-20" for="inputRole">Role</label>
-                                    <select class="form-control" id="inputRole">
+                                    <select class="form-control" id="inputRole" name="role">
                                         <option value="admin">Admin</option>
                                         <option value="user" selected>User</option>
                                     </select>
@@ -50,6 +50,26 @@
         </div>
     </div>
     <?php $this->load->view('admin/template-parts/scripts') ?>
+    <script>
+        $(document).ready(function() {
+            $('#user_form').on('submit', function(e) {
+                e.preventDefault()
+
+                var form = this
+                $.ajax({
+                    url : '<?= admin_url("user/add") ?>',
+                    type: "POST",
+                    data: new FormData(form),
+                    processData: false,
+                    contentType: false,
+                    cache: false,
+                    success: function(json) {
+                        console.log(json);
+                    }
+                })
+            })
+        })
+    </script>
 </body>
 
 </html>

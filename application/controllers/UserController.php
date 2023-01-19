@@ -20,4 +20,9 @@ class UserController extends CI_Controller
 		$data['title'] = 'Pengguna - Dapurbude';
 		$this->load->view('admin/user/create');
 	}
+
+	public function insert()
+	{
+		
+	}
 }
