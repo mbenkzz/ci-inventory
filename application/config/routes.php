@@ -67,7 +67,8 @@ $route['admin_dapur/inventory'] = 'inventoryController/index';
 $route['admin_dapur/user'] = 'userController/index';
 $route['admin_dapur/user/add']['GET'] = 'userController/create';
 $route['admin_dapur/user/add']['POST'] = 'userController/insert';
-
+$route['admin_dapur/user/edit/(:num)']['GET'] = 'userController/edit/$1';
+$route['admin_dapur/user/edit/(:num)']['POST'] = 'userController/update/$1';
 
 
 

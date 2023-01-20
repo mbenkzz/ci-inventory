@@ -16,6 +16,8 @@
                 <div class="container-fluid">
                     <h1 class="mt-4">Tambah Pengguna</h1>
 
+                    <a href="<?= admin_url('user') ?>" class="btn btn-danger btn-sm mb-4"><i class="fas fa-arrow-left fa-fw mr-2"></i>Kembali ke tabel</a>
+
                     <div class="card mb-4">
                         <div class="card-body">
                             <form id="user_form">
