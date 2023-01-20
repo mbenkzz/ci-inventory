@@ -40,3 +40,10 @@ function getSegment($segment) {
     $that = &get_instance();
     return $that->uri->segment($segment);
 }
+
+function dd($data) {
+    echo "<pre>";
+    var_dump($data);
+    echo "</pre>";
+    die();
+}
