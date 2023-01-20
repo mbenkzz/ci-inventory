@@ -11,10 +11,19 @@ function getSession() {
 
 function show_login() {
 	$that = &get_instance();
-	return $that->load->view("admin/login", ["title"=> "Digital MTQ"]);
+	return $that->load->view("admin/login");
 }
 
-function check_auth() {
-	if(!getSession())
-		show_login();
+/**
+ * Checks authentication
+ * @param  string $act redirect|ajax
+ * @return void
+ */
+function check_auth($act = 'redirect') {
+	if(!getSession()) {
+		if($act == 'redirect')
+			redirect(admin_url('login'));
+		else
+			die(json_encode(['status' => 'expired', 'message' => 'Sesi Anda telah berakhir, silahkan login kembali']));
+	}
 }
