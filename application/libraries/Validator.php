@@ -1,6 +1,6 @@
 <?php
 
-class FormValidator
+class Validator
 {
     private $CI;
     private $rules = [];
@@ -70,61 +70,53 @@ class FormValidator
         }
     }
 
-    private function matches($field, $match)
+    private function is_number($field)
     {
-        if ($this->data[$field] != $this->data[$match]) {
-            $this->errors[$field] = $this->rules
-                [$field]['label'] . ' tidak sama dengan ' . $this->rules[$match]['label'];
+        if (!is_numeric($this->data[$field])) {
+            $this->errors[$field] = $this->rules[$field]['label'] . ' harus berupa angka';
         }
     }
 
-    private function is_unique($field)
+    private function min($field, $min)
     {
-        $this->CI->db->where($field, $this->data[$field]);
-        $query = $this->CI->db->get($this->rules[$field]['table']);
-        if ($query->num_rows() > 0) {
-            $this->errors[$field] = $this->rules[$field]['label'] . ' sudah terdaftar';
+        if ($this->data[$field] < $min) {
+            $this->errors[$field] = $this->rules[$field]['label'] . ' minimal ' . $min;
         }
     }
 
-    private function is_valid_email($field)
+    private function max($field, $max)
     {
-        if (!filter_var($this->data[$field], FILTER_VALIDATE_EMAIL)) {
-            $this->errors[$field] = $this->rules[$field]['label'] . ' tidak valid';
+        if ($this->data[$field] > $max) {
+            $this->errors[$field] = $this->rules[$field]['label'] . ' maksimal ' . $max;
         }
     }
 
-    private function is_valid_phone($field)
+    private function user_unique($field, $id = null)
     {
-        if (!preg_match('/^[0-9]{10,13}$/', $this->data[$field])) {
-            $this->errors[$field] = $this->rules[$field]['label'] . ' tidak valid';
+        $this->CI->load->model('User', 'user');
+        $user = $this->CI->user->getFiltered(['username' => $this->data[$field]])->row();
+        if ($user && $user->id != $id) {
+            $this->errors[$field] = $this->rules[$field]['label'] . ' sudah digunakan';
         }
     }
 
-    private function is_valid_date($field)
+    private function is_date($field)
     {
         if (!preg_match('/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/', $this->data[$field])) {
             $this->errors[$field] = $this->rules[$field]['label'] . ' tidak valid';
         }
     }
 
-    private function is_valid_time($field)
+    private function is_time($field)
     {
         if (!preg_match('/^[0-9]{2}:[0-9]{2}:[0-9]{2}$/', $this->data[$field])) {
             $this->errors[$field] = $this->rules[$field]['label'] . ' tidak valid';
         }
     }
 
-    private function is_valid_datetime($field)
+    private function is_datetime($field)
     {
         if (!preg_match('/^[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}$/', $this->data[$field])) {
-            $this->errors[$field] = $this->rules[$field]['label'] . ' tidak valid';
-        }
-    }
-
-    private function is_valid_url($field)
-    {
-        if (!filter_var($this->data[$field], FILTER_VALIDATE_URL)) {
             $this->errors[$field] = $this->rules[$field]['label'] . ' tidak valid';
         }
     }

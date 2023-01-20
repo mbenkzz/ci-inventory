@@ -22,38 +22,37 @@
 
 })(jQuery);
 
-function showTime(){
-    var date = new Date();
-    var h = date.getHours(); // 0 - 23
-    var m = date.getMinutes(); // 0 - 59
-    var s = date.getSeconds(); // 0 - 59
-    var session = "AM";
+// function showTime(){
+//     var date = new Date();
+//     var h = date.getHours(); // 0 - 23
+//     var m = date.getMinutes(); // 0 - 59
+//     var s = date.getSeconds(); // 0 - 59
+//     var session = "AM";
     
-    if(h == 0){
-        h = 12;
-    }
+//     if(h == 0){
+//         h = 12;
+//     }
     
-    if(h > 12){
-        h = h - 12;
-        session = "PM";
-    }
+//     if(h > 12){
+//         h = h - 12;
+//         session = "PM";
+//     }
     
-    h = (h < 10) ? "0" + h : h;
-    m = (m < 10) ? "0" + m : m;
-    s = (s < 10) ? "0" + s : s;
+//     h = (h < 10) ? "0" + h : h;
+//     m = (m < 10) ? "0" + m : m;
+//     s = (s < 10) ? "0" + s : s;
     
-    var time = h + ":" + m + ":" + s + " " + session;
-    document.getElementById("MyClockDisplay").innerText = time;
-    document.getElementById("MyClockDisplay").textContent = time;
+//     var time = h + ":" + m + ":" + s + " " + session;
+//     document.getElementById("MyClockDisplay").innerText = time;
+//     document.getElementById("MyClockDisplay").textContent = time;
     
-    setTimeout(showTime, 1000);
+//     setTimeout(showTime, 1000);
     
-}
-showTime();
+// }
+// showTime();
 
 /**
  * Sweet Alert quick simple function
- * if you are using promises, dont use this function
  * https://sweetalert.js.org/guides/#getting-started
  */
 
@@ -105,13 +104,9 @@ function swal_response(result, message, title = null) {
         case 'success':
             title = title || "Success";
             return swal_success(message, title);
-            break;
         case 'error':
             title = title || "Error";
             return swal_error(message, title);
-            break;
-        case 'expired':
-            return swal_info("Sesi anda berakhir karena tidak aktif dalam beberapa menit, silahkan login kembali", "Sesi login berakhir").then(function() {window.location.reload()});
         default:
             return swal_info(message, title);
         }

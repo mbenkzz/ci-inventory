@@ -6,12 +6,14 @@ class User extends CI_Model {
 		"id",
 		"username",
 		"password",
-        "fullname"
+        "fullname",
+		"role"
 	);
 
 	public $searchColumn = array(
 		"fullname",
 		"username",
+		"role"
 	);
 
 	private $table = "users";
@@ -38,7 +40,7 @@ class User extends CI_Model {
 		return $this->db->get();
 	}
 
-	public function filtered_user($where = [], $method = "AND") {
+	public function getFiltered($where = [], $method = "AND") {
 		$this->__complete_query();
 		if($method == "OR") {
 			$this->db->or_where($where);

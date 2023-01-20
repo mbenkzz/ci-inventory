@@ -26,7 +26,7 @@ class AuthController extends CI_Controller {
 
     public function login_process() {
         try {
-			$query = $this->user->filtered_user(["username" => $this->input->post("username"), "password" => md5($this->input->post("password"))])->row();
+			$query = $this->user->getFiltered(["username" => $this->input->post("username"), "password" => md5($this->input->post("password"))])->row();
 
 			if(!empty($query)) {
 				echo json_response('success', "Sukses Login");
