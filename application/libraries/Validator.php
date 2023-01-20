@@ -24,9 +24,19 @@ class Validator
     {
         $this->data = $this->CI->input->post();
         foreach ($this->rules as $field => $rule) {
+            // explode rules into array
             $rules = explode('|', $rule['rules']);
+
+            if(in_array('nullable', $rules) && empty($this->data[$field])) {
+                unset($this->data[$field]);
+                continue;
+            }
+
+            // check each rule
             foreach ($rules as $rule) {
                 $rule = trim($rule);
+
+                // check if rule has parameter
                 if (strpos($rule, '[') !== false) {
                     $rule = explode('[', $rule);
                     $rule[1] = str_replace(']', '', $rule[1]);
@@ -53,6 +63,13 @@ class Validator
     {
         if (empty($this->data[$field])) {
             $this->errors[$field] = $this->rules[$field]['label'] . ' tidak boleh kosong';
+        }
+    }
+
+    private function nullable($field)
+    {
+        if (empty($this->data[$field])) {
+            unset($this->data[$field]);
         }
     }
 
