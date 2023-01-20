@@ -76,4 +76,15 @@ class UserController extends CI_Controller
 			echo json_encode(['status' => 'error', 'message' => $this->validator->get_errors()]);
 		}
 	}
+
+	public function delete($id)
+	{
+		check_auth('ajax');
+		// Role check
+		if(getSession()->role != 'admin')
+			die(json_encode(['status' => 'error', 'message' => 'Anda tidak memiliki akses untuk menghapus pengguna']));
+		
+		$this->user->delete($id);
+		echo json_encode(['status' => 'success', 'message' => 'Berhasil menghapus pengguna']);
+	}
 }

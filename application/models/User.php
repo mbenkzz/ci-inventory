@@ -70,4 +70,13 @@ class User extends CI_Model {
 		return FALSE;
 	}
 
+	public function delete($id) {
+		try {
+			$this->db->where($this->pk, $id);
+			return $this->db->delete("$this->table");
+		} catch(Exception $e) {
+			die($e->getMessage());
+		}
+		return FALSE;
+	}
 }
