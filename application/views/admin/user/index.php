@@ -71,11 +71,27 @@
                 dangerMode: true,
             }).then((willDelete) => {
                 if (willDelete) {
-                    swal("Data berhasil dihapus!", {
-                        icon: "success",
+                    $.ajax({
+                        url: "<?= admin_url('user/delete') ?>",
+                        type: "POST",
+                        data: {
+                            id: id
+                        },
+                        dataType: "json",
+                        success: function(json) {
+                            if (json.status == 'success') {
+                                swal("Data berhasil dihapus!", {
+                                    icon: "success",
+                                }).then((value) => {
+                                    location.reload();
+                                });
+                            } else {
+                                swal("Data gagal dihapus!", {
+                                    icon: "error",
+                                });
+                            }
+                        }
                     });
-                } else {
-                    swal("Data tidak jadi dihapus!");
                 }
             });
         }

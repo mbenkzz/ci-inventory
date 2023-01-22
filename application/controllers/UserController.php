@@ -77,12 +77,14 @@ class UserController extends CI_Controller
 		}
 	}
 
-	public function delete($id)
+	public function delete()
 	{
 		check_auth('ajax');
 		// Role check
 		if(getSession()->role != 'admin')
 			die(json_encode(['status' => 'error', 'message' => 'Anda tidak memiliki akses untuk menghapus pengguna']));
+
+		$id = $this->input->post('id');
 		
 		$this->user->delete($id);
 		echo json_encode(['status' => 'success', 'message' => 'Berhasil menghapus pengguna']);
