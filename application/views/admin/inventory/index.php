@@ -14,37 +14,43 @@
         <div id="layoutSidenav_content">
             <main>
                 <div class="container-fluid">
-                    <div class="card my-4">
-                        <div class="card-header">
-                            <i class="fas fa-table mr-1"></i>
-                            Tabel Inventaris
-                            <a href="<?= admin_url('user/add') ?>" class="btn btn-primary btn-sm float-right"><i class="fas fa-plus fa-fw mr-2"></i>Tambah</a>
-                        </div>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                    <thead>
-                                        <tr>
-                                            <th>Username</th>
-                                            <th>Nama</th>
-                                            <th>Role</th>
-                                            <th>Aksi</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <?php foreach ($users as $user) : ?>
-                                            <tr>
-                                                <td><?= $user->username ?></td>
-                                                <td><?= $user->fullname ?></td>
-                                                <td><?= $user->role ?></td>
-                                                <td>
-                                                    <a href="<?= admin_url('user/edit/' . $user->id) ?>" class="btn btn-primary btn-sm"><i class="fas fa-pen fa-fw mr-2"></i>Edit</a>
-                                                    <a role="button" class="btn btn-danger btn-sm" onclick="delete_user(<?= $user->id ?>)"><i class="fas fa-trash fa-fw mr-2"></i>Hapus</a>
-                                                </td>
-                                            </tr>
-                                        <?php endforeach ?>
-                                    </tbody>
-                                </table>
+                    <div class="row mt-4">
+                        <!-- <div class="col-12">
+                            <div class="card mb-4">
+                                <div class="card-header">
+                                    <i class="fas fa-table mr-1"></i>
+                                    Update Stok
+                                </div>
+                                <div class="card-body">
+                                    <form id="add_barang">
+
+                                    </form>
+                                </div>
+                            </div>
+                        </div> -->
+                        <div class="col-12">
+                            <div class="card mb-4">
+                                <div class="card-header">
+                                    <i class="fas fa-table mr-1"></i>
+                                    Tabel Inventaris
+                                    <a href="<?= admin_url('user/add') ?>" class="btn btn-primary btn-sm float-right"><i class="fas fa-plus fa-fw mr-2"></i>Tambah</a>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <!-- tabel barang -->
+                                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                            <thead>
+                                                <th>Kode Barang</th>
+                                                <th>Nama Barang</th>
+                                                <th>Stok</th>
+                                                <th>Satuan</th>
+                                                <th>Harga</th>
+                                                <th>Action</th>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -56,7 +62,7 @@
     <?php $this->load->view('admin/template-parts/scripts') ?>
     <script>
         $(document).ready(function() {
-            
+
         });
 
         function delete_user(id) {
