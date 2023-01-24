@@ -28,7 +28,7 @@ class Validator
             $rules = explode('|', $rule['rules']);
 
             if(in_array('nullable', $rules) && empty($this->data[$field])) {
-                unset($this->data[$field]);
+                $this->data[$field] = null;
                 continue;
             }
 
@@ -69,7 +69,7 @@ class Validator
     private function nullable($field)
     {
         if (empty($this->data[$field])) {
-            unset($this->data[$field]);
+            $this->data[$field] = null;
         }
     }
 
