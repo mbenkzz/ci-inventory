@@ -71,5 +71,11 @@ $route['admin_dapur/user/edit/(:num)']['GET'] = 'userController/edit/$1';
 $route['admin_dapur/user/edit/(:num)']['POST'] = 'userController/update/$1';
 $route['admin_dapur/user/delete'] = 'userController/delete';
 
-
+// category
+$route['admin_dapur/category'] = 'categoryController/index';
+$route['admin_dapur/category/add']['GET'] = 'categoryController/create';
+$route['admin_dapur/category/add']['POST'] = 'categoryController/insert';
+$route['admin_dapur/category/edit/(:num)']['GET'] = 'categoryController/edit/$1';
+$route['admin_dapur/category/edit/(:num)']['POST'] = 'categoryController/update/$1';
+$route['admin_dapur/category/delete'] = 'categoryController/delete';
 
