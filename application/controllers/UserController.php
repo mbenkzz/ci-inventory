@@ -70,6 +70,12 @@ class UserController extends CI_Controller
 		$this->validator->set_rules('role', 'Role', 'required');
 		if ($this->validator->run()) {
 			$data = $this->validator->get_data();
+
+			// If password is empty, unset it. so it won't be updated
+			if(is_null($data['password']))
+				unset($data['password']);
+			else
+				$data['password'] = md5($data['password']);
 			$this->user->update($data, $id);
 			echo json_encode(['status' => 'success', 'message' => 'Berhasil mengubah pengguna']);
 		} else {
