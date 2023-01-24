@@ -14,16 +14,13 @@
         <div id="layoutSidenav_content">
             <main>
                 <div class="container-fluid">
-                    <h1 class="mt-4">Pengguna</h1>
-
-                    <div class="card mb-4">
-                        <!-- <div class="card-header">
+                    <div class="card my-4">
+                        <div class="card-header">
                             <i class="fas fa-table mr-1"></i>
-                            DataTable Example
-                        </div> -->
+                            Tabel User
+                            <a href="<?= admin_url('user/add') ?>" class="btn btn-primary btn-sm float-right"><i class="fas fa-plus fa-fw mr-2"></i>Tambah</a>
+                        </div>
                         <div class="card-body">
-                            <!-- add user -->
-                            <a href="<?= admin_url('user/add') ?>" class="btn btn-primary btn-sm mb-3"><i class="fas fa-plus fa-fw mr-2"></i>Tambah Pengguna</a>
                             <div class="table-responsive">
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead>

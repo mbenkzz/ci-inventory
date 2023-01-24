@@ -11,7 +11,7 @@ function getSession() {
 
 function show_login() {
 	$that = &get_instance();
-	return $that->load->view("admin/auth/login", ['title' => 'Login']);
+	$that->load->view("admin/auth/login", ['title' => 'Login']);
 }
 
 /**
@@ -21,8 +21,8 @@ function show_login() {
  */
 function check_auth($act = 'redirect') {
 	if(!getSession()) {
-		if($act == 'redirect')
-			show_login();
+		if($act == 'redirect') 
+			redirect( admin_url('login') );
 		else
 			die(json_encode(['status' => 'expired', 'message' => 'Sesi Anda telah berakhir, silahkan login kembali']));
 	}
