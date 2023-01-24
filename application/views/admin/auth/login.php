@@ -59,7 +59,10 @@
                         },
                         dataType: 'json',
                         success : function(json) {
-                            swal_response(json.result, json.message).then(function() {window.location.reload()})
+                            swal_response(json.result, json.message).then(function() {
+                                if(json.result == 'success')
+                                    window.location.reload()
+                            })
                         },
                         error: function(xhr, status, message) {
                             swal_error(message)
