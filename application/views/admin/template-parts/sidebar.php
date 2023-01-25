@@ -7,7 +7,11 @@
                 Dashboard
             </a>
             <div class="sb-sidenav-menu-heading">Modul</div>
-            <a class="nav-link <?= getSegment(2) == 'inventory' ? 'active' : ''?>" href="<?= admin_url('inventory') ?>">
+            <a class="nav-link <?= getSegment(2) == 'category' ? 'active' : ''?>" href="<?= admin_url('category') ?>">
+                <div class="sb-nav-link-icon"><i class="fas fa-boxes fa-fw"></i></div>
+                Kategori
+            </a>
+            <a class="nav-link <?= getSegment(2) == 'items' ? 'active' : ''?>" href="<?= admin_url('items') ?>">
                 <div class="sb-nav-link-icon"><i class="fas fa-boxes fa-fw"></i></div>
                 Inventaris
             </a>
