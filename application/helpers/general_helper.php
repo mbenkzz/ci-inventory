@@ -41,6 +41,17 @@ function getSegment($segment) {
     return $that->uri->segment($segment);
 }
 
+/**
+ * Get current date time
+ * @param string $format default is 'Y-m-d H:i:s'
+ * 
+ * @return string
+ * @see https://www.php.net/manual/en/function.date.php
+ */
+function getCurrentDateTime($format = 'Y-m-d H:i:s') {
+    return date($format);
+}
+
 function dd($data) {
     echo "<pre>";
     var_dump($data);
