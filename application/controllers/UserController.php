@@ -15,7 +15,7 @@ class UserController extends CI_Controller
 		check_auth();
 		if(getSession()->role != 'admin')
 			show_error('Anda tidak memiliki akses untuk halaman ini', 403, 'Forbidden');
-		$data['title'] = 'Users - Dapurbude';
+		$data['title'] = 'Users';
 		$data['users'] = $this->user->getAllUser()->result();
 		$this->load->view('admin/user/index', $data);
 	}
@@ -25,7 +25,7 @@ class UserController extends CI_Controller
 		check_auth();
 		if(getSession()->role != 'admin')
 			show_error('Anda tidak memiliki akses untuk halaman ini', 403, 'Forbidden');
-		$data['title'] = 'Users - Dapurbude';
+		$data['title'] = 'Users';
 		$this->load->view('admin/user/add', $data);
 	}
 
@@ -57,7 +57,7 @@ class UserController extends CI_Controller
 		check_auth();
 		if(getSession()->role != 'admin')
 			show_error('Anda tidak memiliki akses untuk halaman ini', 403, 'Forbidden');
-		$data['title'] = 'Pengguna - Dapurbude';
+		$data['title'] = 'Users';
 		$data['user'] = $this->user->getSingleUser($id)->row();
 		$this->load->view('admin/user/edit', $data);
 	}

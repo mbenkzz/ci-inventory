@@ -11,7 +11,7 @@ class CategoryController extends CI_Controller
     public function index()
 	{
 		check_auth();
-		$data['title'] = 'Kategori - Dapurbude';
+		$data['title'] = 'Kategori';
 		$data['categories'] = $this->category->getCategoriesTable()->result();
 		$this->load->view('admin/kategori/index', $data);
 	}
@@ -19,7 +19,7 @@ class CategoryController extends CI_Controller
     public function create()
 	{
 		check_auth();
-		$data['title'] = 'Tambah Kategori - Dapurbude';
+		$data['title'] = 'Kategori';
 		$this->load->view('admin/kategori/add', $data);
 	}
 
@@ -41,7 +41,7 @@ class CategoryController extends CI_Controller
     public function edit($id)
     {
         check_auth();
-        $data['title'] = 'Kategori - Dapurbude';
+        $data['title'] = 'Kategori';
         $data['category'] = $this->category->getSingleCategory($id)->row();
         $this->load->view('admin/kategori/edit', $data);
     }
