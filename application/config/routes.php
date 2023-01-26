@@ -79,3 +79,6 @@ $route['admin_dapur/category/edit/(:num)']['GET'] = 'categoryController/edit/$1'
 $route['admin_dapur/category/edit/(:num)']['POST'] = 'categoryController/update/$1';
 $route['admin_dapur/category/delete'] = 'categoryController/delete';
 
+// Items
+$route['admin_dapur/items'] = 'itemsController/index';
+

@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class InventoryController extends CI_Controller {
+class ItemsController extends CI_Controller {
 
 	public function __construct()
 	{
@@ -9,7 +9,7 @@ class InventoryController extends CI_Controller {
 	}
 
     public function index() {
-		$data['title'] = 'Inventaris - Dapurbude';
-        $this->load->view('admin/inventory/index', $data);
+		$data['title'] = 'Inventaris';
+        $this->load->view('admin/item/index', $data);
     }
 }
