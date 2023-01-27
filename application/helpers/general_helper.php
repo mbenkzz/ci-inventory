@@ -8,7 +8,8 @@ function admin_url($uri = '')
 
 function ajax_only()
 {
-    if (!is_ajax()) {
+    $CI = &get_instance();
+    if (!$CI->input->is_ajax_request()) {
         show_error('Forbidden', 403);
     }
 }
