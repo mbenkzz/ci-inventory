@@ -87,7 +87,7 @@ class Validator
         }
     }
 
-    private function is_number($field)
+    private function numeric($field)
     {
         if (!is_numeric($this->data[$field])) {
             $this->errors[$field] = $this->rules[$field]['label'] . ' harus berupa angka';
