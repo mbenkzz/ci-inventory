@@ -5,6 +5,14 @@ function admin_url($uri = '')
 {
     return base_url("admin_dapur/$uri");
 }
+
+function ajax_only()
+{
+    if (!is_ajax()) {
+        show_error('Forbidden', 403);
+    }
+}
+
 /**
  * Create message format using raw array type variable, can still be processed.
  * @param string $result success, error, expired, if expired the page will redirect to login page
