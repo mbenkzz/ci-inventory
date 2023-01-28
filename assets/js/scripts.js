@@ -131,3 +131,23 @@ function confirm_delete(text) {
 /**
  * End Sweet Alert
  */
+
+/**
+ * Input only number for specific class
+ */
+
+$('.input-number').on('input', function () {
+    this.value = this.value.replace(/[^0-9]/g, '');
+});
+
+$(document).on('click', '[data-toggle="input-number"]', function () {
+    var $input = $(this).closest('.input-group').find('input.input-number');
+    var value = parseInt($input.val());
+    if ($(this).data('action') === 'plus') {
+        value++;
+    } else {
+        value = value > 0 ? value - 1 : 0;
+    }
+    $input.val(value);
+    $input.trigger('change');
+});

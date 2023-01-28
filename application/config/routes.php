@@ -81,4 +81,9 @@ $route['admin_dapur/category/delete'] = 'categoryController/delete';
 
 // Items
 $route['admin_dapur/items'] = 'itemsController/index';
-
+$route['admin_dapur/items/add']['POST'] = 'itemsController/insert';
+$route['admin_dapur/items/edit_stock']['GET'] = 'itemsController/edit_stock';
+$route['admin_dapur/items/update_stock']['POST'] = 'itemsController/update_stock';
+$route['admin_dapur/items/edit/(:num)']['GET'] = 'itemsController/edit/$1';
+$route['admin_dapur/items/edit/(:num)']['POST'] = 'itemsController/update/$1';
+$route['admin_dapur/items/delete'] = 'itemsController/delete';
