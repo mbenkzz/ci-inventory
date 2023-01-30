@@ -61,7 +61,7 @@ class Validator
 
     private function required($field)
     {
-        if (empty($this->data[$field])) {
+        if (empty($this->data[$field]) && $this->data[$field] != '0') {
             $this->errors[$field] = $this->rules[$field]['label'] . ' tidak boleh kosong';
         }
     }

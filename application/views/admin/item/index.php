@@ -64,13 +64,13 @@
                                                 <small class="text-danger"></small>
                                             </div>
                                             <div class="col-xl-4 col-lg-3 col-md-6 mb-2">
-                                                <label class="" for="add_barang_price">Harga Jual</label>
-                                                <input type="number" class="form-control mr-sm-2" id="add_barang_price" name="sell_price" placeholder="Harga Jual" value="0" min="0" step="100">
+                                                <label class="" for="add_barang_buy_price">Harga Beli</label>
+                                                <input type="number" class="form-control mr-sm-2" id="add_barang_buy_price" name="buy_price" placeholder="Harga Beli" value="0" min="0" step="100">
                                                 <small class="text-danger"></small>
                                             </div>
                                             <div class="col-xl-4 col-lg-3 col-md-6 mb-2">
-                                                <label class="" for="add_barang_buy_price">Harga Beli</label>
-                                                <input type="number" class="form-control mr-sm-2" id="add_barang_buy_price" name="buy_price" placeholder="Harga Beli" value="0" min="0" step="100">
+                                                <label class="" for="add_barang_price">Harga Jual</label>
+                                                <input type="number" class="form-control mr-sm-2" id="add_barang_price" name="sell_price" placeholder="Harga Jual" value="0" min="0" step="100">
                                                 <small class="text-danger"></small>
                                             </div>
                                             <div class="col-lg-12 col-md-12 mb-2">
@@ -155,9 +155,13 @@
                         $(form).find('small').text('')
                         // add help block
                         $.each(json.message, function(key, value) {
+                            
                             var input = $(form).find('[name="' + key + '"]')
 
-                            var help_block = input.next('small')
+                            if(input.hasClass('input-number'))
+                                var help_block = input.closest('.input-group').next('small')
+                            else
+                                var help_block = input.next('small')
                             help_block.text(value)
                         })
                     }

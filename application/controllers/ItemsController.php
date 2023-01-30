@@ -24,10 +24,10 @@ class ItemsController extends CI_Controller {
 		// validator
 		$this->load->library('validator');
 		$this->validator->set_rules('name', 'Nama Barang', 'required');
-		$this->validator->set_rules('stock', 'Stok', 'required|numeric|min[1]');
+		$this->validator->set_rules('stock', 'Stok', 'required|numeric|min[0]');
 		$this->validator->set_rules('unit', 'Satuan', 'required');
-		$this->validator->set_rules('buy_price', 'Harga', 'required|numeric|min[0]');
-		$this->validator->set_rules('sell_price', 'Harga', 'required|numeric|min[0]');
+		$this->validator->set_rules('buy_price', 'Harga Beli', 'required|numeric|min[0]');
+		$this->validator->set_rules('sell_price', 'Harga Jual', 'required|numeric|min[0]');
 		$this->validator->set_rules('category_id', 'Kategori', 'required');
 		if ($this->validator->run()) {
 			// begin transaction
@@ -69,7 +69,7 @@ class ItemsController extends CI_Controller {
 		// validator
 		$this->load->library('validator');
 		$this->validator->set_rules('id', 'Barang', 'required');
-		$this->validator->set_rules('stock', 'Stok', 'required|numeric|min[1]');
+		$this->validator->set_rules('stock', 'Stok', 'required|numeric|min[1]'); // minimal 1, ya masa nambah cuma 0
 		if($this->validator->run()) {
 			$data = $this->validator->get_data();
 			$this->item->update_stock($data);
