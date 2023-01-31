@@ -160,6 +160,7 @@
                             icon: "success",
                         }).then((value) => {
                             form.reset();
+                            location.reload();
                         });
                     } else {
                         // add help block

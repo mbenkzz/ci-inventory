@@ -24,8 +24,9 @@
                             <div class="card mb-4">
                                 <div class="card-header">
                                     <i class="fas fa-box mr-1"></i>
+                                    <b><?= $item->item_code ?></b>
                                     <?= $item->name ?>
-                                    <span class="badge badge-danger"><?= $item->category_name ?></span>
+                                    <span class="badge badge-primary mx-2"><?= $item->category_name ?></span>
                                 </div>
                                 <div class="card-body pt-3">
                                     <form id="edit_barang">
