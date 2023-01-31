@@ -65,7 +65,7 @@
                                             </div>
                                             <div class="col-xl-4 col-lg-3 col-md-6 mb-2">
                                                 <label class="" for="add_barang_buy_price">Harga Beli</label>
-                                                <input type="number" class="form-control mr-sm-2" id="add_barang_buy_price" name="buy_price" placeholder="Harga Beli" value="0" min="0" step="100">
+                                                <input type="number" class="form-control mr-sm-2" id="add_barang_buy_price" name="buy_price" placeholder="Harga Beli" value="0" min="0">
                                                 <small class="text-danger"></small>
                                             </div>
                                             <div class="col-xl-4 col-lg-3 col-md-6 mb-2">
@@ -143,6 +143,10 @@
                 type: "POST",
                 data: $(form).serialize(),
                 dataType: "json",
+                beforeSend: function() {
+                    // remove help block
+                    $(form).find('small').text('')
+                },
                 success: function(json) {
                     if (json.status == 'success') {
                         swal("Data berhasil ditambahkan!", {
@@ -151,8 +155,6 @@
                             form.reset();
                         });
                     } else {
-                        // remove all help block
-                        $(form).find('small').text('')
                         // add help block
                         $.each(json.message, function(key, value) {
                             
