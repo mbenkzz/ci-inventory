@@ -69,6 +69,11 @@ class Item extends CI_Model {
         $this->db->update('items');
     }
 
+    public function update($data) {
+        $this->db->where('id', $data['id']);
+        $this->db->update('items', $data);
+    }
+
     public function delete($id) {
         $this->db->where('id', $id);
         $this->db->delete('items');

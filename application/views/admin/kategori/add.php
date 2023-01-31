@@ -69,14 +69,23 @@
                     processData: false,
                     contentType: false,
                     cache: false,
+                    beforeSend: function() {
+                        // remove all help block
+                        $(form).find('small').text('')
+                        // disable button
+                        $(form).find('button').prop('disabled', true)
+                    },
+                    complete: function() {
+                        // enable button
+                        $(form).find('button').prop('disabled', false)
+                    },
                     success: function(json) {
                         if (json.status == 'success') {
                             swal_success(json.message).then((value) => {
                                 window.location.href = '<?= admin_url("category") ?>'
                             })
                         } else {
-                            // remove all help block
-                            $(form).find('small').text('')
+                            
                             // add help block
                             $.each(json.message, function(key, value) {
                                 var input = $(form).find('[name="' + key + '"]')

@@ -79,6 +79,39 @@ class ItemsController extends CI_Controller {
 		}
 	}
 
+	public function edit($id) {
+		check_auth();
+
+		$this->load->model('Category', 'category');
+
+		$data['title'] = 'Inventaris';
+		$data['item'] = $this->item->getById($id)->row();
+		$data['categories'] = $this->category->getAllCategory()->result();
+		$this->load->view('admin/item/edit', $data);
+	}
+
+	public function update($id) {
+		ajax_only();
+		check_auth('ajax');
+
+		// validator
+		$this->load->library('validator');
+		$this->validator->set_rules('id', 'Barang', 'required');
+		$this->validator->set_rules('name', 'Nama Barang', 'required');
+		$this->validator->set_rules('unit', 'Satuan', 'required');
+		$this->validator->set_rules('buy_price', 'Harga Beli', 'required|numeric|min[0]');
+		$this->validator->set_rules('sell_price', 'Harga Jual', 'required|numeric|min[0]');
+		$this->validator->set_rules('category_id', 'Kategori', 'required');
+		$this->validator->set_rules('description', 'Deskripsi / Keterangan', 'nullable');
+		if($this->validator->run()) {
+			$data = $this->validator->get_data();
+			$this->item->update($data);
+			echo json_encode(['status' => 'success', 'message' => 'Berhasil mengupdate barang']);
+		} else {
+			echo json_encode(['status' => 'error', 'message' => $this->validator->get_errors()]);
+		}
+	}
+
 	public function delete() {
 		ajax_only();
 		check_auth('ajax');

@@ -110,8 +110,9 @@
                                                         <td><?= $item->buy_price ?></td>
                                                         <td><?= $item->sell_price ?></td>
                                                         <td>
-                                                            <button type="button" class="btn btn-sm btn-primary" onclick="edit_stock($(this).data('item-id'))" data-item-id="<?= $item->id ?>"><i class="fas fa-box fa-fw"></i><i class="fas fa-plus fa-fw"></i></button>
-                                                            <button type="button" class="btn btn-sm btn-danger" onclick="delete_item($(this).data('item-id'))" data-item-id="<?= $item->id ?>"><i class="fas fa-trash"></i></button>
+                                                            <button type="button" class="btn btn-sm btn-success" onclick="edit_stock($(this).data('item-id'))" data-item-id="<?= $item->id ?>"><i class="fas fa-box fa-fw"></i><i class="fas fa-plus fa-fw"></i></button>
+                                                            <a href="<?= admin_url("items/edit/{$item->id}") ?>" class="btn btn-sm btn-primary"><i class="fas fa-pen fa-fw"></i></a>
+                                                            <!-- <button type="button" class="btn btn-sm btn-danger" onclick="delete_item($(this).data('item-id'))" data-item-id="<?= $item->id ?>"><i class="fas fa-trash"></i></button> -->
                                                         </td>
                                                     </tr>
                                                 <?php endforeach; ?>
@@ -146,6 +147,12 @@
                 beforeSend: function() {
                     // remove help block
                     $(form).find('small').text('')
+                    // disable button
+                    $(form).find('button[type="submit"]').prop('disabled', true)
+                },
+                complete: function() {
+                    // re enable button
+                    $(form).find('button[type="submit"]').prop('disabled', false)
                 },
                 success: function(json) {
                     if (json.status == 'success') {
@@ -232,39 +239,39 @@
             });
         });
 
-        function delete_item(id) {
-            swal({
-                title: "Apakah Anda yakin?",
-                text: "Data yang dihapus tidak dapat dikembalikan!",
-                icon: "warning",
-                buttons: true,
-                dangerMode: true,
-            }).then((willDelete) => {
-                if (willDelete) {
-                    $.ajax({
-                        url: "<?= admin_url('items/delete') ?>",
-                        type: "POST",
-                        data: {
-                            id: id
-                        },
-                        dataType: "json",
-                        success: function(json) {
-                            if (json.status == 'success') {
-                                swal("Data berhasil dihapus!", {
-                                    icon: "success",
-                                }).then((value) => {
-                                    location.reload();
-                                });
-                            } else {
-                                swal("Data gagal dihapus!", {
-                                    icon: "error",
-                                });
-                            }
-                        }
-                    });
-                }
-            });
-        }
+        // function delete_item(id) {
+        //     swal({
+        //         title: "Apakah Anda yakin?",
+        //         text: "Data yang dihapus tidak dapat dikembalikan!",
+        //         icon: "warning",
+        //         buttons: true,
+        //         dangerMode: true,
+        //     }).then((willDelete) => {
+        //         if (willDelete) {
+        //             $.ajax({
+        //                 url: "<?= admin_url('items/delete') ?>",
+        //                 type: "POST",
+        //                 data: {
+        //                     id: id
+        //                 },
+        //                 dataType: "json",
+        //                 success: function(json) {
+        //                     if (json.status == 'success') {
+        //                         swal("Data berhasil dihapus!", {
+        //                             icon: "success",
+        //                         }).then((value) => {
+        //                             location.reload();
+        //                         });
+        //                     } else {
+        //                         swal("Data gagal dihapus!", {
+        //                             icon: "error",
+        //                         });
+        //                     }
+        //                 }
+        //             });
+        //         }
+        //     });
+        // }
     </script>
 </body>
 
