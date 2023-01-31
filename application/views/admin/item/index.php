@@ -65,12 +65,12 @@
                                             </div>
                                             <div class="col-xl-4 col-lg-3 col-md-6 mb-2">
                                                 <label class="" for="add_barang_buy_price">Harga Beli</label>
-                                                <input type="number" class="form-control mr-sm-2" id="add_barang_buy_price" name="buy_price" placeholder="Harga Beli" value="0" min="0">
+                                                <input type="number" class="form-control mr-sm-2" id="add_barang_buy_price" name="buy_price" placeholder="Harga Beli" min="0">
                                                 <small class="text-danger"></small>
                                             </div>
                                             <div class="col-xl-4 col-lg-3 col-md-6 mb-2">
                                                 <label class="" for="add_barang_price">Harga Jual</label>
-                                                <input type="number" class="form-control mr-sm-2" id="add_barang_price" name="sell_price" placeholder="Harga Jual" value="0" min="0" step="100">
+                                                <input type="number" class="form-control mr-sm-2" id="add_barang_price" name="sell_price" placeholder="Harga Jual" min="0">
                                                 <small class="text-danger"></small>
                                             </div>
                                             <div class="col-lg-12 col-md-12 mb-2">
