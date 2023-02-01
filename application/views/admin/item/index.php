@@ -90,7 +90,7 @@
                                 <div class="card-body">
                                     <div class="table-responsive">
                                         <!-- tabel barang -->
-                                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                        <table class="table table-bordered datatable-items" width="100%" cellspacing="0">
                                             <thead>
                                                 <th>Kode Barang</th>
                                                 <th>Nama Barang</th>
@@ -100,23 +100,7 @@
                                                 <th>Harga Jual</th>
                                                 <th>Action</th>
                                             </thead>
-                                            <tbody>
-                                                <?php foreach($items as $item): ?>
-                                                    <tr>
-                                                        <td><?= $item->item_code ?></td>
-                                                        <td><?= $item->name ?></td>
-                                                        <td><?= $item->stock ?></td>
-                                                        <td><?= $item->unit ?></td>
-                                                        <td><?= $item->buy_price ?></td>
-                                                        <td><?= $item->sell_price ?></td>
-                                                        <td>
-                                                            <button type="button" class="btn btn-sm btn-success" onclick="edit_stock($(this).data('item-id'))" data-item-id="<?= $item->id ?>"><i class="fas fa-box fa-fw"></i><i class="fas fa-plus fa-fw"></i></button>
-                                                            <a href="<?= admin_url("items/edit/{$item->id}") ?>" class="btn btn-sm btn-primary"><i class="fas fa-pen fa-fw"></i></a>
-                                                            <!-- <button type="button" class="btn btn-sm btn-danger" onclick="delete_item($(this).data('item-id'))" data-item-id="<?= $item->id ?>"><i class="fas fa-trash"></i></button> -->
-                                                        </td>
-                                                    </tr>
-                                                <?php endforeach; ?>
-                                            </tbody>
+                                            
                                         </table>
                                     </div>
                                 </div>
@@ -131,8 +115,24 @@
     <div class="modal fade" id="modal_update_stock" data-backdrop="static" tabindex="-1"></div>
     <?php $this->load->view('admin/template-parts/scripts') ?>
     <script>
+        var datatable_item;
         $(document).ready(function() {
-
+            datatable_item = $('.datatable-items').DataTable({
+                "language" : {
+                    "url" : "//cdn.datatables.net/plug-ins/1.13.1/i18n/id.json"
+                },
+                "processing": true,
+                "serverSide": true,
+                "order": [],
+                "ajax": {
+                    "url": "<?= admin_url('items/datatables') ?>",
+                    "type": "POST"
+                },
+                "columnDefs": [{
+                    "targets": [3, 6],
+                    "orderable": false,
+                }, ],
+            });
         });
 
         // form add barang handler
@@ -160,7 +160,7 @@
                             icon: "success",
                         }).then((value) => {
                             form.reset();
-                            location.reload();
+                            datatable_item.ajax.reload();
                         });
                     } else {
                         // add help block

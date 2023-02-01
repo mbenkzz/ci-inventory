@@ -19,6 +19,50 @@ class ItemsController extends CI_Controller {
         $this->load->view('admin/item/index', $data);
     }
 
+	public function datatables_items() {
+		ajax_only();
+		check_auth('ajax');
+
+		$data = [];
+		foreach ($this->item->get_datatables() as $key) {
+
+			$button_edit_stock = $this->html->generate(
+				'button', 
+				'<i class="fas fa-box fa-fw"></i><i class="fas fa-plus fa-fw"></i>', 
+				array(
+					'class' => 'btn btn-sm btn-success',
+					'onclick' => "editStock('{$key->item_code}')"
+				)
+			);
+
+			$button_edit = $this->html->generate(
+				'a', 
+				'<i class="fas fa-pen fa-fw"></i>',
+				array(
+					'class' => 'btn btn-sm btn-primary',
+					'href' => admin_url('items/edit/'.$key->id)
+				));
+
+			$row = array();
+			$row[] = $key->item_code;
+			$row[] = $key->name;
+			$row[] = $key->stock;
+			$row[] = $key->unit;
+			$row[] = $key->buy_price;
+			$row[] = $key->sell_price;
+			$row[] = $button_edit_stock . ' ' . $button_edit;
+			$data[] = $row;
+		}
+
+		$json = array(
+			'draw' => $this->input->post('draw'),
+			'recordsTotal' => $this->item->count_data(),
+			'recordsFiltered' => $this->item->count_filtered(),
+			'data' => $data
+		);
+		echo json_encode($json);
+	}
+
 	public function insert() {
 		check_auth('ajax');
 		// validator

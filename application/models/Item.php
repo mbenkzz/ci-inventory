@@ -6,18 +6,25 @@ class Item extends CI_Model {
 
     // list of column as add_items.sql
     public $columns = [
-        'id',
-        'item_code',
-        'name',
-        'stock',
-        'unit',
-        'buy_price',
-        'sell_price',
-        'category_id'
+        'i.id',
+        'i.item_code',
+        'i.name',
+        'i.stock',
+        'i.unit',
+        'i.buy_price',
+        'i.sell_price',
+        'i.category_id',
+        'c.name AS category_name'
     ];
 
-    public $select_columns = [
-        
+    public $search_columns = [
+        'i.item_code',
+        'i.name',
+        'i.stock',
+        'i.unit',
+        'i.buy_price',
+        'i.sell_price',
+        ''
     ];
 
     public $table = 'items';
@@ -26,6 +33,33 @@ class Item extends CI_Model {
     {
         parent::__construct();
     }
+
+    // Start Datatable Items
+
+    private function __complete_query() {
+        $this->db->select($this->columns);
+        $this->db->from($this->table . ' i');
+        $this->db->join('categories c', 'c.id = i.category_id');
+    }
+
+    public function get_datatables() {
+        $this->__complete_query();
+        return $this->datatables->get_datatables($this->search_columns);
+    }
+
+    public function count_filtered() {
+        $this->__complete_query();
+        $this->datatables->get_datatables_query($this->search_columns);
+		$query = $this->db->get();
+		return $query->num_rows();
+    }
+
+    public function count_data() {
+        $this->__complete_query();
+		return $this->db->count_all_results();
+    }
+
+    // End of datatable items
 
     public function getItemTable() {
         $this->db->select('items.*, categories.name as category_name');
