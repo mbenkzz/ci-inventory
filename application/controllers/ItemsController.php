@@ -28,10 +28,12 @@ class ItemsController extends CI_Controller {
 
 			$button_edit_stock = $this->html->generate(
 				'button', 
-				'<i class="fas fa-box fa-fw"></i><i class="fas fa-plus fa-fw"></i>', 
+				// '<i class="fas fa-box fa-fw"></i><i class="fas fa-plus fa-fw"></i>', 
+				'<i class="fas fa-plus fa-fw"></i>', 
 				array(
-					'class' => 'btn btn-sm btn-success',
-					'onclick' => "editStock('{$key->item_code}')"
+					'class' => 'btn btn-success',
+					'onclick' => "editStock('{$key->item_code}')",
+					'title' => 'Tambah Stok'
 				)
 			);
 
@@ -39,9 +41,18 @@ class ItemsController extends CI_Controller {
 				'a', 
 				'<i class="fas fa-pen fa-fw"></i>',
 				array(
-					'class' => 'btn btn-sm btn-primary',
-					'href' => admin_url('items/edit/'.$key->id)
+					'class' => 'btn btn-primary',
+					'href' => admin_url('items/edit/'.$key->id),
+					'title' => 'Edit'
 				));
+
+			$button_group = $this->html->generate(
+				'div', 
+				$button_edit_stock . $button_edit,
+				array(
+					'class' => 'btn-group btn-group-sm'
+				)
+			);
 
 			$row = array();
 			$row[] = $key->item_code;
@@ -50,7 +61,7 @@ class ItemsController extends CI_Controller {
 			$row[] = $key->unit;
 			$row[] = $key->buy_price;
 			$row[] = $key->sell_price;
-			$row[] = $button_edit_stock . ' ' . $button_edit;
+			$row[] = $button_group;
 			$data[] = $row;
 		}
 

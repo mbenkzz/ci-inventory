@@ -92,15 +92,14 @@
                                         <!-- tabel barang -->
                                         <table class="table table-bordered datatable-items" width="100%" cellspacing="0">
                                             <thead>
-                                                <th>Kode Barang</th>
+                                                <th>Kode</th>
                                                 <th>Nama Barang</th>
                                                 <th>Stok</th>
                                                 <th>Satuan</th>
                                                 <th>Harga Beli</th>
                                                 <th>Harga Jual</th>
-                                                <th>Action</th>
+                                                <th></th>
                                             </thead>
-                                            
                                         </table>
                                     </div>
                                 </div>
