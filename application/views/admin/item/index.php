@@ -118,7 +118,7 @@
         $(document).ready(function() {
             datatable_item = $('.datatable-items').DataTable({
                 "language" : {
-                    "url" : "//cdn.datatables.net/plug-ins/1.13.1/i18n/id.json"
+                    "url" : "<?= base_url('assets/json/datatables-id.json') ?>"
                 },
                 "processing": true,
                 "serverSide": true,
@@ -159,7 +159,7 @@
                             icon: "success",
                         }).then((value) => {
                             form.reset();
-                            datatable_item.ajax.reload();
+                            datatable_item.ajax.reload(false);
                         });
                     } else {
                         // add help block
