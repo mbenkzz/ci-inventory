@@ -61,7 +61,7 @@ class Item extends CI_Model {
 
     // End of datatable items
 
-    public function getItemTable() {
+    public function getItems() {
         $this->db->select('items.*, categories.name as category_name');
         $this->db->join('categories', 'categories.id = items.category_id');
         $query = $this->db->get('items');

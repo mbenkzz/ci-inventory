@@ -6,6 +6,10 @@
                 <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt fa-fw"></i></div>
                 Dashboard
             </a>
+            <a class="nav-link <?= getSegment(2) == 'cashier' ? 'active' : ''?>" href="<?= admin_url('cashier') ?>">
+                <div class="sb-nav-link-icon"><i class="fas fa-cash-register fa-fw"></i></div>
+                Transaksi
+            </a>
             <div class="sb-sidenav-menu-heading">Modul</div>
             <a class="nav-link <?= getSegment(2) == 'category' ? 'active' : ''?>" href="<?= admin_url('category') ?>">
                 <div class="sb-nav-link-icon"><i class="fas fa-boxes fa-fw"></i></div>
