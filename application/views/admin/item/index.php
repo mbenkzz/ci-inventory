@@ -159,7 +159,7 @@
                             icon: "success",
                         }).then((value) => {
                             form.reset();
-                            datatable_item.ajax.reload(false);
+                            datatable_item.draw(false);
                         });
                     } else {
                         // add help block
