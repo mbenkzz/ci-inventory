@@ -3,17 +3,6 @@
 
 <head>
     <?php $this->load->view('admin/template-parts/head') ?>
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    <style>
-        .select2-container .select2-selection--single {
-            height: 39px;
-        }
-
-        .select2-container .select2-selection--single .select2-selection__rendered {
-            padding-top: 5px;
-            padding-bottom: 5px;
-        }
-    </style>
 </head>
 
 <body class="sb-nav-fixed">
@@ -138,21 +127,19 @@
                                             </tr>
                                         </tbody>
                                     </table>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
             </main>
             <?php $this->load->view('admin/template-parts/footer') ?>
         </div>
     </div>
     <?php $this->load->view('admin/template-parts/scripts') ?>
-
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script>
         $(document).ready(function() {
             $('.select2').select2({
-
+                width: '100%'
             });
         });
     </script>

@@ -10271,6 +10271,25 @@ body {
   background-color: #e9ecef;
 }
 
+/* SELECT2 */
+
+.select2-container .select2-selection--single {
+  height: 39px;
+}
+
+.select2-container .select2-selection--single .select2-selection__rendered {
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+  height: 39px;
+  position: absolute;
+  top: 1px;
+  right: 1px;
+  width: 30px;
+}
+
 /* CUSTOM */
 
 .cursor-default {
