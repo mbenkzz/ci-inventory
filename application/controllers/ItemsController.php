@@ -14,7 +14,7 @@ class ItemsController extends CI_Controller {
 		// load category model
 		$this->load->model('Category', 'category');
 		$data['title'] = 'Inventaris';
-		$data['items'] = $this->item->getItemTable();
+		$data['items'] = $this->item->getItems();
 		$data['categories'] = $this->category->getAllCategory()->result();
         $this->load->view('admin/item/index', $data);
     }
@@ -32,7 +32,7 @@ class ItemsController extends CI_Controller {
 				'<i class="fas fa-plus fa-fw"></i>', 
 				array(
 					'class' => 'btn btn-success',
-					'onclick' => "editStock('{$key->item_code}')",
+					'onclick' => "edit_stock({$key->id})",
 					'title' => 'Tambah Stok'
 				)
 			);
