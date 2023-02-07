@@ -9,7 +9,7 @@
             font-weight: 700;
         }
 
-        .list-header {
+        .list-header, .list-footer {
             font-weight: bold;
             background-color: #f8f9fa;
         }
@@ -60,7 +60,6 @@
                         </div>
                         <div class="card-body">
                             <div class="list-header row border-top border-bottom py-2">
-                                
                                 <div class="col-2">
                                     <!-- checkbox -->
                                     <input type="checkbox" class="mr-2" id="check_all_items">
@@ -192,7 +191,24 @@
                                     <span class="text-danger cursor-pointer btn-delete-item"><i class="fas fa-times fa-fw"></i></span>
                                 </div>
                             </div>
-
+                            <div class="row list-footer border-top border-bottom py-2">
+                                <div class="col-7"></div>
+                                <div class="col-2 text-right">
+                                    Subtotal
+                                </div>
+                                <div class="col-2 text-right text-monospace">
+                                    1.410.000
+                                </div>
+                            </div>
+                            <div class="row list-footer border-top border-bottom py-2">
+                                <div class="col-7"></div>
+                                <div class="col-2 text-right">
+                                    Diskon
+                                </div>
+                                <div class="col-2 text-right text-monospace">
+                                    0
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
