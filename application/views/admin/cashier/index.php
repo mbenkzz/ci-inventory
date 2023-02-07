@@ -4,6 +4,10 @@
 <head>
     <?php $this->load->view('admin/template-parts/head') ?>
     <style>
+        .text-monospace {
+            font-family: 'Courier New', Courier, monospace!important;
+            font-weight: 700;
+        }
 
         .list-header {
             font-weight: bold;
