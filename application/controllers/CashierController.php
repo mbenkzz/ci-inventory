@@ -10,6 +10,7 @@ class CashierController extends CI_Controller
     }
 
     public function index() {
+        check_auth();
         $data['title'] = 'Kasir';
         $data['items'] = $this->item->getItems();
         $this->load->view('admin/cashier/index', $data);
