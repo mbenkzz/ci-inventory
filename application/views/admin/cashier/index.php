@@ -34,7 +34,7 @@
                             <div class="row">
                                 <div class="col-md-6 mb-3">
                                     <!-- select items -->
-                                    <select id="add_barang_item" class="form-control select2">
+                                    <select id="add_barang_item" class="form-control">
                                         <option value="">Pilih Barang</option>
                                         <?php foreach ($items as $item) : ?>
                                             <option value="<?= $item->id ?>"><?= "[{$item->item_code}] {$item->name} ({$item->unit})" ?></option>
@@ -209,6 +209,33 @@
                                     0
                                 </div>
                             </div>
+                            <div class="row list-footer border-top border-bottom py-2">
+                                <div class="col-7"></div>
+                                <div class="col-2 text-right">
+                                    Total
+                                </div>
+                                <div class="col-2 text-right text-monospace">
+                                    1.410.000
+                                </div>
+                            </div>
+                            <div class="row list-footer border-top border-bottom py-2">
+                                <div class="col-7"></div>
+                                <div class="col-2 text-right">
+                                    Bayar
+                                </div>
+                                <div class="col-2 text-right text-monospace">
+                                    <input type="text" class="form-control form-control-sm text-right p-0 border-0">
+                                </div>
+                            </div>
+                            <div class="row list-footer border-top border-bottom py-2">
+                                <div class="col-7"></div>
+                                <div class="col-2 text-right">
+                                    Kembali
+                                </div>
+                                <div class="col-2 text-right text-monospace">
+                                    90.000
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -219,8 +246,26 @@
     <?php $this->load->view('admin/template-parts/scripts') ?>
     <script>
         $(document).ready(function() {
-            $('.select2').select2({
-                width: '100%'
+            $('#add_barang_item').select2({
+                width: '100%',
+                placeholder: 'Pilih barang',
+                ajax: {
+                    url: '<?= admin_url('items/select2') ?>',
+                    dataType: 'json',
+                    delay: 250,
+                    data: function(params) {
+                        return {
+                            q: params.term,
+                            page: params.page
+                        };
+                    },
+                    processResults: function(data) {
+                        return {
+                            results: data,
+                        };
+                    },
+                    cache: true
+                },
             });
         });
 

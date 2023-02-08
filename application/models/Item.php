@@ -68,6 +68,12 @@ class Item extends CI_Model {
         return $query->result();
     }
 
+    public function getSelect2($q) {
+        $this->db->like('name', $q);
+        $query = $this->db->get('items');
+        return $query->result();
+    }
+
     public function getById($id) {
         $this->db->select('items.*, categories.name as category_name');
         $this->db->where('items.id', $id);

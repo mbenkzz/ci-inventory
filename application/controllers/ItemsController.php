@@ -74,6 +74,25 @@ class ItemsController extends CI_Controller {
 		echo json_encode($json);
 	}
 
+	public function select2_items() {
+		ajax_only();
+		check_auth('ajax');
+
+		$search = $this->input->get('q');
+		$items = $this->item->getSelect2($search);
+		$data = [];
+		foreach ($items as $key) {
+			$data[] = [
+				'id' => $key->id,
+				'text' => "[{$key->item_code}] {$key->name}",
+				'name' => $key->name,
+				'code' => $key->item_code,
+				'stock' => $key->stock,
+			];
+		}
+		echo json_encode($data);
+	}
+
 	public function insert() {
 		check_auth('ajax');
 		// validator
