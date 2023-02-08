@@ -68,8 +68,9 @@ class Item extends CI_Model {
         return $query->result();
     }
 
-    public function getSelect2($q = '') {
+    public function getSelect2($q) {
         $this->db->like('name', $q);
+        $this->db->or_like('item_code', $q);
         $query = $this->db->get('items');
         return $query->result();
     }

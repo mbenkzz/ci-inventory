@@ -40,13 +40,14 @@
                                             <option value="<?= $item->id ?>"><?= "[{$item->item_code}] {$item->name} ({$item->unit})" ?></option>
                                         <?php endforeach ?>
                                     </select>
+                                    <small class="text-danger"></small>
                                 </div>
                                 <div class="col-md-4 mb-3">
                                     <div class="input-group">
                                         <div class="input-group-prepend">
                                             <button class="btn btn-outline-secondary" type="button" data-toggle="input-number" data-action="minus"><i class="fas fa-minus"></i></button>
                                         </div>
-                                        <input type="text" class="form-control text-center input-number" id="add_barang_amount" placeholder="Stok" value="0">
+                                        <input type="text" class="form-control text-center input-number" id="add_barang_amount" placeholder="Stok" value="1" data-min="1">
                                         <div class="input-group-append">
                                             <button class="btn btn-outline-secondary" type="button" data-toggle="input-number" data-action="plus"><i class="fas fa-plus"></i></button>
                                         </div>
@@ -54,7 +55,7 @@
                                     <small class="text-danger"></small>
                                 </div>
                                 <div class="col-md-2 mb-3">
-                                    <button class="btn btn-primary btn-block">Tambah</button>
+                                    <button type="button" class="btn btn-primary btn-block" id="btn_add_item">Tambah</button>
                                 </div>
                             </div>
                         </div>
@@ -245,10 +246,13 @@
     </div>
     <?php $this->load->view('admin/template-parts/scripts') ?>
     <script>
+        var selectedItem = null;
+        const cart_changes = new Event('cart_changes');
         $(document).ready(function() {
             $('#add_barang_item').select2({
                 width: '100%',
                 placeholder: 'Pilih barang',
+                minimumInputLength: 3,
                 ajax: {
                     url: '<?= admin_url('items/select2') ?>',
                     dataType: 'json',
@@ -260,14 +264,64 @@
                         };
                     },
                     processResults: function(data) {
+                        // return mapping of object
                         return {
-                            results: data,
+                            results: $.map(data, function(item) {
+                                return {
+                                    id: item.id,
+                                    text: item.text,
+                                    code: item.code,
+                                    name: item.name,
+                                    stock: parseInt(item.stock),
+                                    unit: item.unit,
+                                    price: parseInt(item.price),
+                                }
+                            }),
                         };
                     },
                     cache: true
-                },
+                }
             });
         });
+
+        $('#add_barang_item').on('select2:select', function (e) {
+            selectedItem = e.params.data;
+            $('#add_barang_item').next('small.text-danger').text('');
+        });
+
+        $(document).on('#btn_add_item', 'click', function(e) {
+            e.preventDefault();
+            var amount = parseInt($('#add_barang_amount').val()) || 0;
+            if (selectedItem == null) {
+                $('#add_barang_item').next('small.text-danger').text('Pilih barang terlebih dahulu');
+                return;
+            }
+            if (amount > selectedItem.stock) {
+                $('#add_barang_item').next('small.text-danger').text('Stok barang kosong');
+                return;
+            }
+            if (amount == 0) {
+                $('#add_barang_amount').closest('.input-group').next('small.text-danger').text('Jumlah barang tidak boleh kosong');
+                return;
+            }
+            var item = {
+                id: selectedItem.id,
+                code: selectedItem.code,
+                name: selectedItem.name,
+                amount: amount,
+                unit: selectedItem.unit,
+                price: selectedItem.price,
+                total: amount * selectedItem.price,
+            };
+            var html = "";
+            html += '<div class="row item-row border-bottom py-2">';
+            html += '    <div class="col-1 text-center">';
+            html += '        <input type="checkbox" class="check-item" data-id="_id_">';
+            html += '    </div>';
+            html += '    <div class="col-2 text-center">';
+            html += '        <span class="item-code">' + item.code + '</span>';
+
+        })
 
         $(document).on('change', '#check_all_items', function() {
             if ($(this).is(':checked')) {
@@ -288,6 +342,8 @@
         $(document).on('click', '.btn-delete-item', function() {
             $(this).closest('.item-row').remove();
         });
+
+        
     </script>
 </body>
 

@@ -78,7 +78,7 @@ class ItemsController extends CI_Controller {
 		ajax_only();
 		check_auth('ajax');
 
-		$search = $this->input->get('q');
+		$search = $this->input->get('q') ?? '';
 		$items = $this->item->getSelect2($search);
 		$data = [];
 		foreach ($items as $key) {
@@ -88,6 +88,8 @@ class ItemsController extends CI_Controller {
 				'name' => $key->name,
 				'code' => $key->item_code,
 				'stock' => $key->stock,
+				'unit' => $key->unit,
+				'price' => $key->sell_price,
 			];
 		}
 		echo json_encode($data);
