@@ -5,11 +5,12 @@
     <?php $this->load->view('admin/template-parts/head') ?>
     <style>
         .text-monospace {
-            font-family: 'Courier New', Courier, monospace!important;
+            font-family: 'Courier New', Courier, monospace !important;
             font-weight: 700;
         }
 
-        .list-header, .list-footer {
+        .item-list-header,
+        .item-list-footer {
             font-weight: bold;
             background-color: #f8f9fa;
         }
@@ -31,7 +32,7 @@
                             Kasir
                         </div>
                         <div class="card-body pb-0">
-                            <div class="row">
+                            <div id="add_barang_form" class="row">
                                 <div class="col-md-6 mb-3">
                                     <!-- select items -->
                                     <select id="add_barang_item" class="form-control">
@@ -60,7 +61,7 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            <div class="list-header row border-top border-bottom py-2">
+                            <div class="item-list-header row border-top border-bottom py-2">
                                 <div class="col-2">
                                     <!-- checkbox -->
                                     <input type="checkbox" class="mr-2" id="check_all_items">
@@ -84,115 +85,117 @@
                                     Total
                                 </div>
                             </div>
-                            <div class="row item-row border-bottom py-1">
-                                <div class="col-2">
-                                    <!-- checkbox -->
-                                    <input type="checkbox" class="mr-2 check-item">
-                                    <!-- item code -->
-                                    ITEM0001
+                            <div class="item-list">
+                                <div class="row item-row border-bottom py-1">
+                                    <div class="col-2">
+                                        <!-- checkbox -->
+                                        <input type="checkbox" class="mr-2 check-item">
+                                        <!-- item code -->
+                                        ITEM0001
+                                    </div>
+                                    <div class="col-4">
+                                        <!-- item name -->
+                                        Item 1 (pcs)
+                                    </div>
+                                    <div class="col-1 text-center">
+                                        <!-- item amount -->
+                                        10
+                                    </div>
+                                    <div class="col-2 text-right text-monospace">
+                                        <!-- item price -->
+                                        10.000
+                                    </div>
+                                    <div class="col-2 text-right text-monospace">
+                                        <!-- item total -->
+                                        100.000
+                                    </div>
+                                    <div class="col-1 text-right">
+                                        <span class="text-danger cursor-pointer btn-delete-item"><i class="fas fa-times fa-fw"></i></span>
+                                    </div>
                                 </div>
-                                <div class="col-4">
-                                    <!-- item name -->
-                                    Item 1 (pcs)
+                                <div class="row item-row border-bottom py-1">
+                                    <div class="col-2">
+                                        <!-- checkbox -->
+                                        <input type="checkbox" class="mr-2 check-item">
+                                        <!-- item code -->
+                                        ITEM0002
+                                    </div>
+                                    <div class="col-4">
+                                        <!-- item name -->
+                                        Item 2 (ball)
+                                    </div>
+                                    <div class="col-1 text-center">
+                                        <!-- item amount -->
+                                        10
+                                    </div>
+                                    <div class="col-2 text-right text-monospace">
+                                        <!-- item price -->
+                                        120.000
+                                    </div>
+                                    <div class="col-2 text-right text-monospace">
+                                        <!-- item total -->
+                                        1.200.000
+                                    </div>
+                                    <div class="col-1 text-right">
+                                        <span class="text-danger cursor-pointer btn-delete-item"><i class="fas fa-times fa-fw"></i></span>
+                                    </div>
                                 </div>
-                                <div class="col-1 text-center">
-                                    <!-- item amount -->
-                                    10
+                                <div class="row item-row border-bottom py-1">
+                                    <div class="col-2">
+                                        <!-- checkbox -->
+                                        <input type="checkbox" class="mr-2 check-item">
+                                        <!-- item code -->
+                                        ITEM0003
+                                    </div>
+                                    <div class="col-4">
+                                        <!-- item name -->
+                                        Item 3 (roll)
+                                    </div>
+                                    <div class="col-1 text-center">
+                                        <!-- item amount -->
+                                        10
+                                    </div>
+                                    <div class="col-2 text-right text-monospace">
+                                        <!-- item price -->
+                                        10.000
+                                    </div>
+                                    <div class="col-2 text-right text-monospace">
+                                        <!-- item total -->
+                                        100.000
+                                    </div>
+                                    <div class="col-1 text-right">
+                                        <span class="text-danger cursor-pointer btn-delete-item"><i class="fas fa-times fa-fw"></i></span>
+                                    </div>
                                 </div>
-                                <div class="col-2 text-right text-monospace">
-                                    <!-- item price -->
-                                    10.000
-                                </div>
-                                <div class="col-2 text-right text-monospace">
-                                    <!-- item total -->
-                                    100.000
-                                </div>
-                                <div class="col-1 text-right">
-                                    <span class="text-danger cursor-pointer btn-delete-item"><i class="fas fa-times fa-fw"></i></span>
+                                <div class="row item-row border-bottom py-1">
+                                    <div class="col-2">
+                                        <!-- checkbox -->
+                                        <input type="checkbox" class="mr-2 check-item">
+                                        <!-- item code -->
+                                        ITEM0004
+                                    </div>
+                                    <div class="col-4">
+                                        <!-- item name -->
+                                        Item 4 (pack)
+                                    </div>
+                                    <div class="col-1 text-center">
+                                        <!-- item amount -->
+                                        1
+                                    </div>
+                                    <div class="col-2 text-right text-monospace">
+                                        <!-- item price -->
+                                        10.000
+                                    </div>
+                                    <div class="col-2 text-right text-monospace">
+                                        <!-- item total -->
+                                        10.000
+                                    </div>
+                                    <div class="col-1 text-right">
+                                        <span class="text-danger cursor-pointer btn-delete-item"><i class="fas fa-times fa-fw"></i></span>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="row item-row border-bottom py-1">
-                                <div class="col-2">
-                                    <!-- checkbox -->
-                                    <input type="checkbox" class="mr-2 check-item">
-                                    <!-- item code -->
-                                    ITEM0002
-                                </div>
-                                <div class="col-4">
-                                    <!-- item name -->
-                                    Item 2 (ball)
-                                </div>
-                                <div class="col-1 text-center">
-                                    <!-- item amount -->
-                                    10
-                                </div>
-                                <div class="col-2 text-right text-monospace">
-                                    <!-- item price -->
-                                    120.000
-                                </div>
-                                <div class="col-2 text-right text-monospace">
-                                    <!-- item total -->
-                                    1.200.000
-                                </div>
-                                <div class="col-1 text-right">
-                                    <span class="text-danger cursor-pointer btn-delete-item"><i class="fas fa-times fa-fw"></i></span>
-                                </div>
-                            </div>
-                            <div class="row item-row border-bottom py-1">
-                                <div class="col-2">
-                                    <!-- checkbox -->
-                                    <input type="checkbox" class="mr-2 check-item">
-                                    <!-- item code -->
-                                    ITEM0003
-                                </div>
-                                <div class="col-4">
-                                    <!-- item name -->
-                                    Item 3 (roll)
-                                </div>
-                                <div class="col-1 text-center">
-                                    <!-- item amount -->
-                                    10
-                                </div>
-                                <div class="col-2 text-right text-monospace">
-                                    <!-- item price -->
-                                    10.000
-                                </div>
-                                <div class="col-2 text-right text-monospace">
-                                    <!-- item total -->
-                                    100.000
-                                </div>
-                                <div class="col-1 text-right">
-                                    <span class="text-danger cursor-pointer btn-delete-item"><i class="fas fa-times fa-fw"></i></span>
-                                </div>
-                            </div>
-                            <div class="row item-row border-bottom py-1">
-                                <div class="col-2">
-                                    <!-- checkbox -->
-                                    <input type="checkbox" class="mr-2 check-item">
-                                    <!-- item code -->
-                                    ITEM0004
-                                </div>
-                                <div class="col-4">
-                                    <!-- item name -->
-                                    Item 4 (pack)
-                                </div>
-                                <div class="col-1 text-center">
-                                    <!-- item amount -->
-                                    1
-                                </div>
-                                <div class="col-2 text-right text-monospace">
-                                    <!-- item price -->
-                                    10.000
-                                </div>
-                                <div class="col-2 text-right text-monospace">
-                                    <!-- item total -->
-                                    10.000
-                                </div>
-                                <div class="col-1 text-right">
-                                    <span class="text-danger cursor-pointer btn-delete-item"><i class="fas fa-times fa-fw"></i></span>
-                                </div>
-                            </div>
-                            <div class="row list-footer border-top border-bottom py-2">
+                            <div class="row item-list-footer border-top border-bottom py-2">
                                 <div class="col-7"></div>
                                 <div class="col-2 text-right">
                                     Subtotal
@@ -201,7 +204,7 @@
                                     1.410.000
                                 </div>
                             </div>
-                            <div class="row list-footer border-top border-bottom py-2">
+                            <div class="row item-list-footer border-top border-bottom py-2">
                                 <div class="col-7"></div>
                                 <div class="col-2 text-right">
                                     Diskon
@@ -210,7 +213,7 @@
                                     0
                                 </div>
                             </div>
-                            <div class="row list-footer border-top border-bottom py-2">
+                            <div class="row item-list-footer border-top border-bottom py-2">
                                 <div class="col-7"></div>
                                 <div class="col-2 text-right">
                                     Total
@@ -219,7 +222,7 @@
                                     1.410.000
                                 </div>
                             </div>
-                            <div class="row list-footer border-top border-bottom py-2">
+                            <div class="row item-list-footer border-top border-bottom py-2">
                                 <div class="col-7"></div>
                                 <div class="col-2 text-right">
                                     Bayar
@@ -228,7 +231,7 @@
                                     <input type="text" class="form-control form-control-sm text-right p-0 border-0">
                                 </div>
                             </div>
-                            <div class="row list-footer border-top border-bottom py-2">
+                            <div class="row item-list-footer border-top border-bottom py-2">
                                 <div class="col-7"></div>
                                 <div class="col-2 text-right">
                                     Kembali
@@ -249,10 +252,10 @@
         var selectedItem = null;
         const cart_changes = new Event('cart_changes');
         $(document).ready(function() {
+            $('.item-list').html('');
             $('#add_barang_item').select2({
                 width: '100%',
                 placeholder: 'Pilih barang',
-                minimumInputLength: 3,
                 ajax: {
                     url: '<?= admin_url('items/select2') ?>',
                     dataType: 'json',
@@ -284,16 +287,17 @@
             });
         });
 
-        $('#add_barang_item').on('select2:select', function (e) {
+        $('#add_barang_item').on('select2:select', function(e) {
             selectedItem = e.params.data;
             $('#add_barang_item').next('small.text-danger').text('');
         });
 
-        $(document).on('#btn_add_item', 'click', function(e) {
+        $(document).on('click', '#btn_add_item', function(e) {
             e.preventDefault();
+
             var amount = parseInt($('#add_barang_amount').val()) || 0;
             if (selectedItem == null) {
-                $('#add_barang_item').next('small.text-danger').text('Pilih barang terlebih dahulu');
+                $('#add_barang_item').nextAll('small.text-danger').text('Pilih barang terlebih dahulu');
                 return;
             }
             if (amount > selectedItem.stock) {
@@ -311,17 +315,50 @@
                 amount: amount,
                 unit: selectedItem.unit,
                 price: selectedItem.price,
+                price_string: selectedItem.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."),
                 total: amount * selectedItem.price,
+                total_string: (amount * selectedItem.price).toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."),
             };
+
+
             var html = "";
             html += '<div class="row item-row border-bottom py-2">';
-            html += '    <div class="col-1 text-center">';
-            html += '        <input type="checkbox" class="check-item" data-id="_id_">';
+            html += '    <div class="col-2">';
+            html += '        <input type="checkbox" class="mr-2 check-item">';
+            html += '        <span class="item-code">__code__</span>';
             html += '    </div>';
-            html += '    <div class="col-2 text-center">';
-            html += '        <span class="item-code">' + item.code + '</span>';
+            html += '    <div class="col-4">';
+            html += '        <span class="item-name">__name__ (__unit__)</span>';
+            html += '    </div>';
+            html += '    <div class="col-1 text-center">';
+            html += '        <span class="item-amount">__amount__</span>';
+            html += '    </div>';
+            html += '    <div class="col-2 text-right">';
+            html += '        <span class="item-price text-monospace">__price_string__</span>';
+            html += '    </div>';
+            html += '    <div class="col-2 text-right">';
+            html += '        <span class="item-total text-monospace">__total_string__</span>';
+            html += '    </div>';
+            html += '    <div class="col-1 text-center">';
+            html += '        <span class="text-danger cursor-pointer btn-delete-item"><i class="fas fa-times fa-fw"></i></span>';
+            html += '    </div>';
+            html += '</div>';
 
-        })
+            $.each(item, function(key, value) {
+                html = html.replace('__' + key + '__', value);
+            });
+
+            $('.item-list').append(html);
+
+            $('#add_barang_item').val(null).trigger('change');
+            $('#add_barang_amount').val(1);
+            $('#add_barang_form').find('small.text-danger').text('');
+            selectedItem = null;
+
+            document.dispatchEvent(cart_changes);
+        });
+
+
 
         $(document).on('change', '#check_all_items', function() {
             if ($(this).is(':checked')) {
@@ -342,8 +379,6 @@
         $(document).on('click', '.btn-delete-item', function() {
             $(this).closest('.item-row').remove();
         });
-
-        
     </script>
 </body>
 
