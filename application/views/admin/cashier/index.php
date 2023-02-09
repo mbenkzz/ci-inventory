@@ -46,17 +46,20 @@
                                 <div class="col-md-4 mb-3">
                                     <div class="input-group">
                                         <div class="input-group-prepend">
-                                            <button class="btn btn-outline-secondary" type="button" data-toggle="input-number" data-action="minus"><i class="fas fa-minus"></i></button>
+                                            <button class="btn btn-outline-secondary" type="button" data-toggle="input-number" data-action="minus" disabled><i class="fas fa-minus"></i></button>
                                         </div>
-                                        <input type="text" class="form-control text-center input-number" id="add_barang_amount" placeholder="Stok" value="1" data-min="1">
+                                        <input type="text" class="form-control text-center input-number" id="add_barang_amount" placeholder="Stok" value="1" data-min="1" disabled>
                                         <div class="input-group-append">
-                                            <button class="btn btn-outline-secondary" type="button" data-toggle="input-number" data-action="plus"><i class="fas fa-plus"></i></button>
+                                            <button class="btn btn-outline-secondary" type="button" data-toggle="input-number" data-action="plus" disabled><i class="fas fa-plus"></i></button>
                                         </div>
                                     </div>
                                     <small class="text-danger"></small>
                                 </div>
                                 <div class="col-md-2 mb-3">
-                                    <button type="button" class="btn btn-primary btn-block" id="btn_add_item">Tambah</button>
+                                    <button type="button" class="btn btn-primary btn-block" id="btn_add_item">
+                                        <i class="fas fa-cart-plus mr-1"></i>
+                                        Tambah
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -195,7 +198,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row item-list-footer border-top border-bottom py-2">
+                            <div class="row item-list-footer invisible border-top border-bottom py-2">
                                 <div class="col-7"></div>
                                 <div class="col-2 text-right">
                                     Subtotal
@@ -204,7 +207,7 @@
                                     1.410.000
                                 </div>
                             </div>
-                            <div class="row item-list-footer border-top border-bottom py-2">
+                            <div class="row item-list-footer invisible border-top border-bottom py-2">
                                 <div class="col-7"></div>
                                 <div class="col-2 text-right">
                                     Diskon
@@ -213,7 +216,7 @@
                                     0
                                 </div>
                             </div>
-                            <div class="row item-list-footer border-top border-bottom py-2">
+                            <div class="row item-list-footer invisible border-top border-bottom py-2">
                                 <div class="col-7"></div>
                                 <div class="col-2 text-right">
                                     Total
@@ -222,7 +225,7 @@
                                     1.410.000
                                 </div>
                             </div>
-                            <div class="row item-list-footer border-top border-bottom py-2">
+                            <div class="row item-list-footer invisible border-top border-bottom py-2">
                                 <div class="col-7"></div>
                                 <div class="col-2 text-right">
                                     Bayar
@@ -231,7 +234,7 @@
                                     <input type="text" class="form-control form-control-sm text-right p-0 border-0">
                                 </div>
                             </div>
-                            <div class="row item-list-footer border-top border-bottom py-2">
+                            <div class="row item-list-footer invisible border-top border-bottom py-2">
                                 <div class="col-7"></div>
                                 <div class="col-2 text-right">
                                     Kembali
@@ -290,6 +293,30 @@
         $('#add_barang_item').on('select2:select', function(e) {
             selectedItem = e.params.data;
             $('#add_barang_item').next('small.text-danger').text('');
+
+            amountDisabled(false);
+
+            // check if item already in cart 
+            var item = $('.item-list').find('.item-row[data-code="' + selectedItem.code + '"]');
+            if (item.length > 0) {
+                // set amount input to item amount
+                $('#add_barang_amount').val(item.find('.item-amount').text());
+            }
+
+            // set max amount
+            $('#add_barang_amount').attr('data-max', selectedItem.stock);
+        });
+
+        $('#add_barang_amount').on('input', function() {
+            var amount = parseInt($(this).val());
+            var max = parseInt($(this).data('max'));
+            var min = parseInt($(this).data('min')) || 1;
+            if (amount > max) {
+                $(this).val(max);
+            }
+            if (amount < min) {
+                $(this).val(min);
+            }
         });
 
         $(document).on('click', '#btn_add_item', function(e) {
@@ -322,7 +349,7 @@
 
 
             var html = "";
-            html += '<div class="row item-row border-bottom py-2">';
+            html += '<div class="row item-row border-bottom py-2" data-code="__code__">';
             html += '    <div class="col-2">';
             html += '        <input type="checkbox" class="mr-2 check-item">';
             html += '        <span class="item-code">__code__</span>';
@@ -345,20 +372,28 @@
             html += '</div>';
 
             $.each(item, function(key, value) {
-                html = html.replace('__' + key + '__', value);
+                html = html.replaceAll('__' + key + '__', value);
             });
 
+            // check if having empty message
+            if($('.item-list').find('.item-row').length == 0) {
+                $('.item-list').html('');
+            }
+            // check if item already exists
+            let existingItem = $('.item-list').find('.item-row[data-code="' + item.code + '"]');
+            if (existingItem.length > 0) {
+                existingItem.remove();
+            }
             $('.item-list').append(html);
 
             $('#add_barang_item').val(null).trigger('change');
             $('#add_barang_amount').val(1);
             $('#add_barang_form').find('small.text-danger').text('');
+            amountDisabled(true);
             selectedItem = null;
 
             document.dispatchEvent(cart_changes);
         });
-
-
 
         $(document).on('change', '#check_all_items', function() {
             if ($(this).is(':checked')) {
@@ -378,7 +413,35 @@
 
         $(document).on('click', '.btn-delete-item', function() {
             $(this).closest('.item-row').remove();
+            document.dispatchEvent(cart_changes);
         });
+
+        $(document).on('click', '#btn_delete_selected', function() {
+            $('.check-item:checked').closest('.item-row').remove();
+            document.dispatchEvent(cart_changes);
+        });
+
+        // event cart changes handler
+        document.addEventListener('cart_changes', function(e) {
+            // if empty hide .item-list-footer
+            if ($('.item-list').find('.item-row').length == 0) {
+                $('.item-list-footer').addClass('invisible');
+            } else {
+                $('.item-list-footer').removeClass('invisible');
+            }
+            var total = 0;
+            $('.item-list').find('.item-row').each(function() {
+                total += parseInt($(this).find('.item-total').text().replaceAll('.', ''));
+            });
+            $('#total').text(total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
+        });
+
+        function amountDisabled(bool) {
+            $('#add_barang_amount').prop('disabled', bool);
+            $('#add_barang_amount').closest('.input-group').find('[data-toggle="input-number"]').prop('disabled', bool);
+            $('#btn_add_item').prop('disabled', bool);
+
+        }
     </script>
 </body>
 
