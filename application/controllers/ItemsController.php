@@ -85,6 +85,7 @@ class ItemsController extends CI_Controller {
 			$data[] = [
 				'id' => $key->id,
 				'text' => "[{$key->item_code}] {$key->name}",
+				'disabled' => $key->stock == 0 ? true : false,
 				'name' => $key->name,
 				'code' => $key->item_code,
 				'stock' => $key->stock,

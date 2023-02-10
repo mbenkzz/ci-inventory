@@ -305,6 +305,9 @@
 
             // set max amount
             $('#add_barang_amount').attr('data-max', selectedItem.stock);
+            if (parseInt($('#add_barang_amount').val()) > selectedItem.stock) {
+                $('#add_barang_amount').val(selectedItem.stock);
+            }
         });
 
         $('#add_barang_amount').on('input', function() {
