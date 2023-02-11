@@ -35,12 +35,7 @@
                             <div id="add_barang_form" class="row">
                                 <div class="col-md-6 mb-3">
                                     <!-- select items -->
-                                    <select id="add_barang_item" class="form-control">
-                                        <option value="">Pilih Barang</option>
-                                        <?php foreach ($items as $item) : ?>
-                                            <option value="<?= $item->id ?>"><?= "[{$item->item_code}] {$item->name} ({$item->unit})" ?></option>
-                                        <?php endforeach ?>
-                                    </select>
+                                    <select id="add_barang_item" class="form-control"></select>
                                     <small class="text-danger"></small>
                                 </div>
                                 <div class="col-md-4 mb-3">
@@ -56,9 +51,9 @@
                                     <small class="text-danger"></small>
                                 </div>
                                 <div class="col-md-2 mb-3">
-                                    <button type="button" class="btn btn-primary btn-block" id="btn_add_item">
+                                    <button type="button" class="btn btn-primary btn-block" id="btn_add_item" disabled>
                                         <i class="fas fa-cart-plus mr-1"></i>
-                                        Tambah
+                                        <span class="d-inline d-sm-none d-xl-inline">Tambah</span>
                                     </button>
                                 </div>
                             </div>
@@ -69,15 +64,15 @@
                                     <!-- checkbox -->
                                     <input type="checkbox" class="mr-2" id="check_all_items">
                                     <!-- item code -->
-                                    Kode Barang
+                                    Kode
                                 </div>
                                 <div class="col-4">
                                     <!-- item name -->
-                                    Barang & Satuan
+                                    Barang
                                 </div>
                                 <div class="col-1 text-center">
                                     <!-- item amount -->
-                                    Jumlah
+                                    <span class="d-none d-xl-block text-truncate">Jumlah</span>
                                 </div>
                                 <div class="col-2 text-right">
                                     <!-- item price -->
@@ -88,122 +83,13 @@
                                     Total
                                 </div>
                             </div>
-                            <div class="item-list">
-                                <div class="row item-row border-bottom py-1">
-                                    <div class="col-2">
-                                        <!-- checkbox -->
-                                        <input type="checkbox" class="mr-2 check-item">
-                                        <!-- item code -->
-                                        ITEM0001
-                                    </div>
-                                    <div class="col-4">
-                                        <!-- item name -->
-                                        Item 1 (pcs)
-                                    </div>
-                                    <div class="col-1 text-center">
-                                        <!-- item amount -->
-                                        10
-                                    </div>
-                                    <div class="col-2 text-right text-monospace">
-                                        <!-- item price -->
-                                        10.000
-                                    </div>
-                                    <div class="col-2 text-right text-monospace">
-                                        <!-- item total -->
-                                        100.000
-                                    </div>
-                                    <div class="col-1 text-right">
-                                        <span class="text-danger cursor-pointer btn-delete-item"><i class="fas fa-times fa-fw"></i></span>
-                                    </div>
-                                </div>
-                                <div class="row item-row border-bottom py-1">
-                                    <div class="col-2">
-                                        <!-- checkbox -->
-                                        <input type="checkbox" class="mr-2 check-item">
-                                        <!-- item code -->
-                                        ITEM0002
-                                    </div>
-                                    <div class="col-4">
-                                        <!-- item name -->
-                                        Item 2 (ball)
-                                    </div>
-                                    <div class="col-1 text-center">
-                                        <!-- item amount -->
-                                        10
-                                    </div>
-                                    <div class="col-2 text-right text-monospace">
-                                        <!-- item price -->
-                                        120.000
-                                    </div>
-                                    <div class="col-2 text-right text-monospace">
-                                        <!-- item total -->
-                                        1.200.000
-                                    </div>
-                                    <div class="col-1 text-right">
-                                        <span class="text-danger cursor-pointer btn-delete-item"><i class="fas fa-times fa-fw"></i></span>
-                                    </div>
-                                </div>
-                                <div class="row item-row border-bottom py-1">
-                                    <div class="col-2">
-                                        <!-- checkbox -->
-                                        <input type="checkbox" class="mr-2 check-item">
-                                        <!-- item code -->
-                                        ITEM0003
-                                    </div>
-                                    <div class="col-4">
-                                        <!-- item name -->
-                                        Item 3 (roll)
-                                    </div>
-                                    <div class="col-1 text-center">
-                                        <!-- item amount -->
-                                        10
-                                    </div>
-                                    <div class="col-2 text-right text-monospace">
-                                        <!-- item price -->
-                                        10.000
-                                    </div>
-                                    <div class="col-2 text-right text-monospace">
-                                        <!-- item total -->
-                                        100.000
-                                    </div>
-                                    <div class="col-1 text-right">
-                                        <span class="text-danger cursor-pointer btn-delete-item"><i class="fas fa-times fa-fw"></i></span>
-                                    </div>
-                                </div>
-                                <div class="row item-row border-bottom py-1">
-                                    <div class="col-2">
-                                        <!-- checkbox -->
-                                        <input type="checkbox" class="mr-2 check-item">
-                                        <!-- item code -->
-                                        ITEM0004
-                                    </div>
-                                    <div class="col-4">
-                                        <!-- item name -->
-                                        Item 4 (pack)
-                                    </div>
-                                    <div class="col-1 text-center">
-                                        <!-- item amount -->
-                                        1
-                                    </div>
-                                    <div class="col-2 text-right text-monospace">
-                                        <!-- item price -->
-                                        10.000
-                                    </div>
-                                    <div class="col-2 text-right text-monospace">
-                                        <!-- item total -->
-                                        10.000
-                                    </div>
-                                    <div class="col-1 text-right">
-                                        <span class="text-danger cursor-pointer btn-delete-item"><i class="fas fa-times fa-fw"></i></span>
-                                    </div>
-                                </div>
-                            </div>
+                            <div class="item-list"></div>
                             <div class="row item-list-footer invisible border-top border-bottom py-2">
                                 <div class="col-7"></div>
                                 <div class="col-2 text-right">
                                     Subtotal
                                 </div>
-                                <div class="col-2 text-right text-monospace">
+                                <div class="col-2 text-right text-monospace" id="cart_subtotal">
                                     1.410.000
                                 </div>
                             </div>
@@ -212,7 +98,7 @@
                                 <div class="col-2 text-right">
                                     Diskon
                                 </div>
-                                <div class="col-2 text-right text-monospace">
+                                <div class="col-2 text-right text-monospace" id="cart_discount">
                                     0
                                 </div>
                             </div>
@@ -221,7 +107,7 @@
                                 <div class="col-2 text-right">
                                     Total
                                 </div>
-                                <div class="col-2 text-right text-monospace">
+                                <div class="col-2 text-right text-monospace" id="cart_total">
                                     1.410.000
                                 </div>
                             </div>
@@ -231,7 +117,7 @@
                                     Bayar
                                 </div>
                                 <div class="col-2 text-right text-monospace">
-                                    <input type="text" class="form-control form-control-sm text-right p-0 border-0">
+                                    <input type="text" class="form-control form-control-sm text-right p-0 border-0" id="cart_input_pay">
                                 </div>
                             </div>
                             <div class="row item-list-footer invisible border-top border-bottom py-2">
@@ -239,7 +125,7 @@
                                 <div class="col-2 text-right">
                                     Kembali
                                 </div>
-                                <div class="col-2 text-right text-monospace">
+                                <div class="col-2 text-right text-monospace" id="cart_change_money">
                                     90.000
                                 </div>
                             </div>
@@ -276,6 +162,7 @@
                                 return {
                                     id: item.id,
                                     text: item.text,
+                                    disabled: parseInt(item.stock) < 1,
                                     code: item.code,
                                     name: item.name,
                                     stock: parseInt(item.stock),
@@ -285,8 +172,31 @@
                             }),
                         };
                     },
-                    cache: true
-                }
+                    cache: false,
+                },
+                templateResult: function(item) {
+                    let badge = '';
+                    if (parseInt(item.stock) < 1) {
+                        badge = '<span class="badge badge-danger">habis</span>';
+                    } else {
+                        badge = '<span class="badge badge-success">' + item.stock + '</span>';
+                    }
+                    var html = '<div class="row no-gutters">';
+                    html += '<div class="col-10 text-truncate">' + item.text + ' (' + item.unit +  ')</div>';
+                    html += '<div class="col-2 text-right">' + badge + '</div>';
+                    html += '</div>';
+                    return html;
+                },
+                templateSelection: function(item) {
+                    // thousands separator
+                    if(item.id == '') {
+                        return item.text;
+                    } else {
+                        var price = item.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+                        return item.name + ' (' + price + ')';
+                    }
+                },
+                escapeMarkup: (m) => {return m}
             });
         });
 
@@ -432,18 +342,47 @@
             } else {
                 $('.item-list-footer').removeClass('invisible');
             }
-            var total = 0;
+            var subtotal = 0;
             $('.item-list').find('.item-row').each(function() {
-                total += parseInt($(this).find('.item-total').text().replaceAll('.', ''));
+                subtotal += parseInt($(this).find('.item-total').text().replaceAll('.', ''));
             });
-            $('#total').text(total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
+            $('#cart_subtotal').text(subtotal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
+
+            var discount = parseInt($('#cart_discount').val()) || 0;
+            var total = subtotal - discount;
+            $('#cart_total').text(total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
+
+            calculateChangeMoney();
         });
+
+        $(document).on('change', '#cart_discount', function() {
+            document.dispatchEvent(cart_changes);
+        });
+
+        // input only number on #cart_input_pay
+        $(document).on('input', '#cart_input_pay', function() {
+            this.value = this.value.replace(/[^0-9]/g, '');
+            calculateChangeMoney();
+        });
+
 
         function amountDisabled(bool) {
             $('#add_barang_amount').prop('disabled', bool);
             $('#add_barang_amount').closest('.input-group').find('[data-toggle="input-number"]').prop('disabled', bool);
             $('#btn_add_item').prop('disabled', bool);
 
+        }
+
+        function calculateChangeMoney() {
+            var total = parseInt($('#cart_total').text().replaceAll('.', '')) || 0;
+            var money = parseInt($('#cart_input_pay').val()) || 0;
+            var change = money - total;
+            $('#cart_change_money').text(change.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
+            if (change < 0) {
+                $('#cart_change_money').addClass('text-danger');
+            } else {
+                $('#cart_change_money').removeClass('text-danger');
+            }
         }
     </script>
 </body>

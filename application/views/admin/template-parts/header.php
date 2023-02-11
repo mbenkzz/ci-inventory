@@ -1,5 +1,5 @@
 <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
-    <a class="navbar-brand" id="sidebarToggle" href="#!"><?= $title ?? '' ?></a>
+    <a class="navbar-brand" id="sidebarToggle" href="#!"><i class="fas fa-bars fa-fw mr-2"></i><?= $title ?? '' ?></a>
     <!-- Navbar-->
     <!-- <ul class="navbar-nav ml-auto ml-md-0">
         <li class="nav-item dropdown">
