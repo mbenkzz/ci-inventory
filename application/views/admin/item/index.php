@@ -197,7 +197,8 @@
             });
         }
 
-        $(document).on('change', '#edit_barang_stok', function(e) {
+        $(document).on('change input', '#edit_barang_stok', function(e) {
+            this.value = this.value.replace(/[^0-9]/g, '');
             let $input = $(this);
             let addition = parseInt($input.val());
             let before = parseInt($('#edit_barang_stok_before').html());

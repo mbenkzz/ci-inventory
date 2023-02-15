@@ -84,7 +84,7 @@ class ItemsController extends CI_Controller {
 		foreach ($items as $key) {
 			$data[] = [
 				'id' => $key->id,
-				'text' => "[{$key->item_code}] {$key->name}",
+				'text' => "{$key->name}",
 				'name' => $key->name,
 				'code' => $key->item_code,
 				'stock' => $key->stock,

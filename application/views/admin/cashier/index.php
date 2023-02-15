@@ -4,6 +4,11 @@
 <head>
     <?php $this->load->view('admin/template-parts/head') ?>
     <style>
+        .badge-stock,
+        .badge-price {
+            border-radius: 0
+        }
+
         .text-monospace {
             font-family: 'Courier New', Courier, monospace !important;
             font-weight: 700;
@@ -13,6 +18,21 @@
         .item-list-footer {
             font-weight: bold;
             background-color: #f8f9fa;
+        }
+
+        #cart_subtotal,
+        #cart_total {
+            font-weight: bold;
+            margin-top: auto;
+            margin-bottom: auto;
+        }
+
+        #cart_subtotal {
+            font-size: 1.25rem;
+        }
+
+        #cart_total {
+            font-size: 1.5rem;
         }
     </style>
 </head>
@@ -59,76 +79,94 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            <div class="item-list-header row border-top border-bottom py-2">
-                                <div class="col-2">
-                                    <!-- checkbox -->
-                                    <input type="checkbox" class="mr-2" id="check_all_items">
-                                    <!-- item code -->
-                                    Kode
+                            <form action="<?= admin_url('cashier/add') ?>" method="post" id="form_transaksi">
+                                <div class="item-list-header row border-top border-bottom py-2">
+                                    <div class="col-2">
+                                        <!-- checkbox -->
+                                        <input type="checkbox" class="mr-2" id="check_all_items">
+                                        <!-- item code -->
+                                        Kode
+                                    </div>
+                                    <div class="col-4">
+                                        <!-- item name -->
+                                        Barang
+                                    </div>
+                                    <div class="col-1 text-center">
+                                        <!-- item amount -->
+                                        <span class="d-none d-xl-block text-truncate">Jumlah</span>
+                                    </div>
+                                    <div class="col-2 text-right">
+                                        <!-- item price -->
+                                        Harga
+                                    </div>
+                                    <div class="col-2 text-right">
+                                        <!-- item total -->
+                                        Total
+                                    </div>
                                 </div>
-                                <div class="col-4">
-                                    <!-- item name -->
-                                    Barang
+                                <div class="item-list"></div>
+                                <div class="row no-gutters">
+                                    <div class="col-md-6"></div>
+                                    <div class="col-md-6">
+                                        <div class="row item-list-footer invisible border py-2">
+                                            <div class="col-2"></div>
+                                            <div class="col-4 text-right">
+                                                Subtotal
+                                            </div>
+                                            <div class="col-6 col-md-4 text-right text-monospace" id="cart_subtotal">
+                                                1.410.000
+                                            </div>
+                                        </div>
+                                        <div class="row item-list-footer invisible border py-2">
+                                            <div class="col-2"></div>
+                                            <div class="col-4 text-right">
+                                                Diskon
+                                            </div>
+                                            <div class="col-6 col-md-4 text-right text-monospace" id="cart_discount">
+                                                <input type="text" class="form-control form-control-sm text-right p-0 border-0 font-weight-bold" id="cart_input_discount" name="discount">
+                                            </div>
+                                        </div>
+                                        <div class="row item-list-footer invisible border" style="background-color: #dee2e6;">
+                                            <div class="col-2"></div>
+                                            <div class="col-4 text-right my-2">
+                                                Total
+                                            </div>
+                                            <div class="col-6 col-md-4 text-right text-monospace" id="cart_total">
+                                                1.410.000
+                                            </div>
+                                            <input type="hidden" name="total" id="cart_input_total">
+                                        </div>
+                                        <div class="row item-list-footer invisible border py-2" style="background-color: #dee2e6;">
+                                            <div class="col-2"></div>
+                                            <div class="col-4 text-right">
+                                                Bayar
+                                            </div>
+                                            <div class="col-6 col-md-4 text-right text-monospace">
+                                                <input type="text" class="form-control form-control-sm text-right p-0 border-0 font-weight-bold" id="cart_input_pay" name="pay">
+                                            </div>
+                                        </div>
+                                        <div class="row item-list-footer invisible border py-2">
+                                            <div class="col-2"></div>
+                                            <div class="col-4 text-right">
+                                                Kembali
+                                            </div>
+                                            <div class="col-6 col-md-4 text-right text-monospace" id="cart_change_money">
+                                                90.000
+                                            </div>
+                                        </div>
+                                        <!-- proceed button -->
+                                        <div class="row item-list-footer invisible border py-2">
+                                            <div class="col-4 col-xl-6"></div>
+                                            <div class="col-8 col-md-6 col-xl-4">
+                                                <button type="button" class="btn btn-primary btn-block" id="btn_proceed">
+                                                    <i class="fas fa-check mr-1"></i>
+                                                    <span>Proses</span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="col-1 text-center">
-                                    <!-- item amount -->
-                                    <span class="d-none d-xl-block text-truncate">Jumlah</span>
-                                </div>
-                                <div class="col-2 text-right">
-                                    <!-- item price -->
-                                    Harga
-                                </div>
-                                <div class="col-2 text-right">
-                                    <!-- item total -->
-                                    Total
-                                </div>
-                            </div>
-                            <div class="item-list"></div>
-                            <div class="row item-list-footer invisible border-top border-bottom py-2">
-                                <div class="col-7"></div>
-                                <div class="col-2 text-right">
-                                    Subtotal
-                                </div>
-                                <div class="col-2 text-right text-monospace" id="cart_subtotal">
-                                    1.410.000
-                                </div>
-                            </div>
-                            <div class="row item-list-footer invisible border-top border-bottom py-2">
-                                <div class="col-7"></div>
-                                <div class="col-2 text-right">
-                                    Diskon
-                                </div>
-                                <div class="col-2 text-right text-monospace" id="cart_discount">
-                                    0
-                                </div>
-                            </div>
-                            <div class="row item-list-footer invisible border-top border-bottom py-2">
-                                <div class="col-7"></div>
-                                <div class="col-2 text-right">
-                                    Total
-                                </div>
-                                <div class="col-2 text-right text-monospace" id="cart_total">
-                                    1.410.000
-                                </div>
-                            </div>
-                            <div class="row item-list-footer invisible border-top border-bottom py-2">
-                                <div class="col-7"></div>
-                                <div class="col-2 text-right">
-                                    Bayar
-                                </div>
-                                <div class="col-2 text-right text-monospace">
-                                    <input type="text" class="form-control form-control-sm text-right p-0 border-0" id="cart_input_pay">
-                                </div>
-                            </div>
-                            <div class="row item-list-footer invisible border-top border-bottom py-2">
-                                <div class="col-7"></div>
-                                <div class="col-2 text-right">
-                                    Kembali
-                                </div>
-                                <div class="col-2 text-right text-monospace" id="cart_change_money">
-                                    90.000
-                                </div>
-                            </div>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -175,28 +213,33 @@
                     cache: false,
                 },
                 templateResult: function(item) {
-                    let badge = '';
-                    if (parseInt(item.stock) < 1) {
-                        badge = '<span class="badge badge-danger">habis</span>';
-                    } else {
-                        badge = '<span class="badge badge-success">' + item.stock + '</span>';
+                    if (!item.disabled) {
+                        let badge = '';
+                        if (parseInt(item.stock) < 1) {
+                            badge = '<span class="badge badge-danger badge-stock">habis</span>';
+                        } else {
+                            badge = '<span class="badge badge-success badge-stock">' + item.stock + '</span>';
+                        }
+                        var price_badge = '<span class="badge badge-primary badge-price"> Rp. ' + item.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + '</span>';
+                        var html = '<div class="row no-gutters">';
+                        html += '<div class="col-9 text-truncate">' + item.text + ' (' + item.unit + ')</div>';
+                        html += '<div class="col-3 text-right">' + badge + price_badge + '</div>';
+                        html += '</div>';
+                        return html;
                     }
-                    var html = '<div class="row no-gutters">';
-                    html += '<div class="col-10 text-truncate">' + item.text + ' (' + item.unit +  ')</div>';
-                    html += '<div class="col-2 text-right">' + badge + '</div>';
-                    html += '</div>';
-                    return html;
                 },
                 templateSelection: function(item) {
                     // thousands separator
-                    if(item.id == '') {
+                    if (item.id == '') {
                         return item.text;
                     } else {
                         var price = item.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
                         return item.name + ' (' + price + ')';
                     }
                 },
-                escapeMarkup: (m) => {return m}
+                escapeMarkup: (m) => {
+                    return m
+                }
             });
         });
 
@@ -217,6 +260,8 @@
             $('#add_barang_amount').attr('data-max', selectedItem.stock);
             if (parseInt($('#add_barang_amount').val()) > selectedItem.stock) {
                 $('#add_barang_amount').val(selectedItem.stock);
+            } else {
+                $('#add_barang_amount').val(1);
             }
         });
 
@@ -266,12 +311,14 @@
             html += '    <div class="col-2">';
             html += '        <input type="checkbox" class="mr-2 check-item">';
             html += '        <span class="item-code">__code__</span>';
+            html += '        <input type="hidden" name="items[__code__][id]" value="__id__">';
             html += '    </div>';
             html += '    <div class="col-4">';
             html += '        <span class="item-name">__name__ (__unit__)</span>';
             html += '    </div>';
             html += '    <div class="col-1 text-center">';
             html += '        <span class="item-amount">__amount__</span>';
+            html += '        <input type="hidden" name="items[__code__][amount]" value="__amount__">';
             html += '    </div>';
             html += '    <div class="col-2 text-right">';
             html += '        <span class="item-price text-monospace">__price_string__</span>';
@@ -289,7 +336,7 @@
             });
 
             // check if having empty message
-            if($('.item-list').find('.item-row').length == 0) {
+            if ($('.item-list').find('.item-row').length == 0) {
                 $('.item-list').html('');
             }
             // check if item already exists
@@ -348,14 +395,22 @@
             });
             $('#cart_subtotal').text(subtotal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
 
-            var discount = parseInt($('#cart_discount').val()) || 0;
+            var discount = parseInt($('#cart_input_discount').val()) || 0;
+            if (discount > subtotal) {
+                discount = subtotal;
+                $('#cart_input_discount').val(subtotal);
+            }
             var total = subtotal - discount;
             $('#cart_total').text(total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
+            $('#cart_input_total').val(total);
 
             calculateChangeMoney();
         });
 
-        $(document).on('change', '#cart_discount', function() {
+        $(document).on('input', '#cart_input_discount', function() {
+            this.value = this.value.replace(/[^0-9]/g, '');
+            // set pay back to zero
+            $('#cart_input_pay').val(0);
             document.dispatchEvent(cart_changes);
         });
 
@@ -384,6 +439,20 @@
                 $('#cart_change_money').removeClass('text-danger');
             }
         }
+
+        $(document).on('click', '#btn_proceed', function() {
+            swal({
+                title: "Apakah anda yakin?",
+                text: "Anda akan memproses transaksi ini",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            }).then((willDelete) => {
+                if (willDelete) {
+                    $('#form_transaksi').submit();
+                }
+            });
+        });
     </script>
 </body>
 

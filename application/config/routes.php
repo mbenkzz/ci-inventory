@@ -91,3 +91,4 @@ $route['admin_dapur/items/edit/(:num)']['POST'] = 'itemsController/update/$1';
 $route['admin_dapur/items/delete'] = 'itemsController/delete';
 
 $route['admin_dapur/cashier'] = 'cashierController/index';
+$route['admin_dapur/cashier/add']['POST'] = 'cashierController/insert';
