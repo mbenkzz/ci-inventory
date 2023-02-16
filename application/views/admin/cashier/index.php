@@ -267,8 +267,8 @@
 
         $('#add_barang_amount').on('input', function() {
             var amount = parseInt($(this).val());
-            var max = parseInt($(this).data('max'));
-            var min = parseInt($(this).data('min')) || 1;
+            var max = parseInt($(this).attr('data-max'));
+            var min = parseInt($(this).attr('data-min')) || 1;
             if (amount > max) {
                 $(this).val(max);
             }
