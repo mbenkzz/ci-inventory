@@ -249,19 +249,19 @@
 
             amountDisabled(false);
 
-            // check if item already in cart 
+            // check if item already in cart if not set amount back to one
             var item = $('.item-list').find('.item-row[data-code="' + selectedItem.code + '"]');
             if (item.length > 0) {
                 // set amount input to item amount
                 $('#add_barang_amount').val(item.find('.item-amount').text());
+            } else {
+                $('#add_barang_amount').val(1);
             }
 
-            // set max amount
+            // set max amount if current amount exceeds max
             $('#add_barang_amount').attr('data-max', selectedItem.stock);
             if (parseInt($('#add_barang_amount').val()) > selectedItem.stock) {
                 $('#add_barang_amount').val(selectedItem.stock);
-            } else {
-                $('#add_barang_amount').val(1);
             }
         });
 
