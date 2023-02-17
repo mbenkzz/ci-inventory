@@ -63,7 +63,7 @@
                                         <div class="input-group-prepend">
                                             <button class="btn btn-outline-secondary" type="button" data-toggle="input-number" data-action="minus" disabled><i class="fas fa-minus"></i></button>
                                         </div>
-                                        <input type="text" class="form-control text-center input-number" id="add_barang_amount" placeholder="Stok" value="1" data-min="1" disabled>
+                                        <input type="text" class="form-control text-center input-number" id="add_barang_amount" placeholder="Jumlah" data-min="1" disabled>
                                         <div class="input-group-append">
                                             <button class="btn btn-outline-secondary" type="button" data-toggle="input-number" data-action="plus" disabled><i class="fas fa-plus"></i></button>
                                         </div>
@@ -158,7 +158,7 @@
                                         <div class="row item-list-footer invisible border py-2">
                                             <div class="col-4 col-xl-6"></div>
                                             <div class="col-8 col-md-6 col-xl-4">
-                                                <button type="button" class="btn btn-primary btn-block" id="btn_proceed">
+                                                <button type="button" class="btn btn-primary btn-block" id="btn_proceed" disabled>
                                                     <i class="fas fa-check mr-1"></i>
                                                     <span>Proses</span>
                                                 </button>
@@ -255,7 +255,7 @@
                 // set amount input to item amount
                 $('#add_barang_amount').val(item.find('.item-amount').text());
             } else {
-                $('#add_barang_amount').val(1);
+                $('#add_barang_amount').val('');
             }
 
             // set max amount if current amount exceeds max
@@ -263,6 +263,9 @@
             if (parseInt($('#add_barang_amount').val()) > selectedItem.stock) {
                 $('#add_barang_amount').val(selectedItem.stock);
             }
+
+            // set placeholder
+            $('#add_barang_amount').attr('placeholder', 'jumlah (maks : ' + selectedItem.stock + ')')
         });
 
         $('#add_barang_amount').on('input', function() {
@@ -433,6 +436,7 @@
             var money = parseInt($('#cart_input_pay').val()) || 0;
             var change = money - total;
             $('#cart_change_money').text(change.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
+            $('#btn_proceed').prop('disabled', (change < 0))
             if (change < 0) {
                 $('#cart_change_money').addClass('text-danger');
             } else {

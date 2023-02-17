@@ -3,6 +3,10 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class Cashier extends CI_Model {
 
+    public function __construct() {
+        parent::__construct();
+    }
+
     public function getCartItems($ids = []) {
         $this->db->select('*');
         $this->db->from('items');
@@ -28,5 +32,13 @@ class Cashier extends CI_Model {
         return 'TR'.$date.'-'.$total;
     }
 
+    public function insertTransaction($data = []) {
+        $this->db->insert('transaction', $data);
+        return $this->db->insert_id();
+    }
 
+    public function insertTransactionDetail($data = []) {
+        $this->db->insert_batch('transaction_detail', $data);
+        return $this->db->affected_rows();
+    }
 }

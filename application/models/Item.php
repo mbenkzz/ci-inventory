@@ -110,6 +110,12 @@ class Item extends CI_Model {
         $this->db->update('items');
     }
 
+    public function stock_out($data) {
+        $this->db->set('stock', 'stock - ' . $data['stock'], FALSE);
+        $this->db->where('id', $data['id']);
+        $this->db->update('items');
+    }
+
     public function update($data) {
         $this->db->where('id', $data['id']);
         $this->db->update('items', $data);

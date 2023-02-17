@@ -142,7 +142,8 @@ $('.input-number').on('input', function () {
 
 $(document).on('click', '[data-toggle="input-number"]', function () {
     var $input = $(this).closest('.input-group').find('input.input-number');
-    var value = parseInt($input.val());
+    var val = $input.val() == '' ? 0 : $input.val();
+    var value = parseInt(val);
     var min = parseInt($input.attr('data-min')) || 0;
     var max = parseInt($input.attr('data-max'));
     if ($(this).data('action') === 'plus') {

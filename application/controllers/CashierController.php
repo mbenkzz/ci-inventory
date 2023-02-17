@@ -22,14 +22,29 @@ class CashierController extends CI_Controller
 
         // generate invoice number
         $transaction_code = $this->cashier->generateTransactionCode();
-        
-        echo('<pre>');
 
         $data = $this->input->post();
         if ($data['pay'] < $data['total']) {}
         $data['code'] = $transaction_code;
         $data['discount'] = !empty($data['discount']) ? $data['discount'] : 0;
-        
+
+        // insert into transaction table
+        $insert = [
+            'code' => $transaction_code,
+            'total' => $data['total'],
+            'disc' => $data['discount'],
+            'created_at' => date('Y-m-d H:i:s'),
+            'created_by' => getSession()->id,
+            'deleted_at' => null,
+            'deleted_by' => null,
+            'delete_reason' => null
+        ];
+
+        // begin transaction
+        $this->db->trans_start(TRUE);
+
+        $trans_id = $this->cashier->insertTransaction($insert);
+
         $ids = [];
         foreach ($data['items'] as $key => $value) {
             $ids[] = $value['id'];
@@ -38,11 +53,29 @@ class CashierController extends CI_Controller
         $items = $this->cashier->getCartItems($ids);
 
         // put query result to $data['items']
-        foreach ($items->result_array() as $item) {
-            $data['items'][$item['item_code']] = array_merge($data['items'][$item['item_code']], $item);
+        $details = [];
+        foreach ($items->result() as $item) {
+            $row = [];
+            $row['trans_id'] = $trans_id;
+            $row['item_code'] = $item->item_code;
+            $row['item_name'] = $item->name;
+            $row['amount'] = $data['items'][$item->item_code]['amount'];
+            $row['buy_price'] = $item->buy_price;
+            $row['sell_price'] = $item->sell_price;
+            $details[] = $row;
         }
 
+        // dd($details);
 
+        // insert into transaction_detail table
+        $this->cashier->insertTransactionDetail($details);
+
+        // update stock
+        foreach ($details as $key => $value) {
+            $this->item->stock_out($value['id'], $value['amount']);
+        }
+
+        $this->db->trans_complete();
 
         if(!empty($errors)) {
             $this->session->set_flashdata('error', $error);
