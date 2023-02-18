@@ -41,7 +41,7 @@ class CashierController extends CI_Controller
         ];
 
         // begin transaction
-        $this->db->trans_start(TRUE);
+        $this->db->trans_start();
 
         $trans_id = $this->cashier->insertTransaction($insert);
 
@@ -55,32 +55,42 @@ class CashierController extends CI_Controller
         // put query result to $data['items']
         $details = [];
         foreach ($items->result() as $item) {
+            // assign it into table transaction detail
             $row = [];
             $row['trans_id'] = $trans_id;
             $row['item_code'] = $item->item_code;
             $row['item_name'] = $item->name;
-            $row['amount'] = $data['items'][$item->item_code]['amount'];
+            $amount = $data['items'][$item->item_code]['amount'];
+            $row['amount'] = $amount;
             $row['buy_price'] = $item->buy_price;
             $row['sell_price'] = $item->sell_price;
             $details[] = $row;
+
+            // pick stock
+            $this->item->stock_out($item->id, $amount);
         }
 
-        // dd($details);
+        // dd($items->result());    
 
         // insert into transaction_detail table
         $this->cashier->insertTransactionDetail($details);
 
-        // update stock
-        foreach ($details as $key => $value) {
-            $this->item->stock_out($value['id'], $value['amount']);
+        if(!empty($errors)) {
+            $this->session->set_flashdata('error', $error);
+            $this->session->set_flashdata('form_data', $this->input->post());
+            redirect(admin_url('transaction/cashier'));
+            die;
         }
 
         $this->db->trans_complete();
 
-        if(!empty($errors)) {
-            $this->session->set_flashdata('error', $error);
-            $this->session->set_flashdata('form_data', $this->input->post());
-            redirect(admin_url('cashier'));
-        }
+        redirect(admin_url('transaction/cashier'));
+    }
+
+    public function history() {
+        check_auth();
+        $data['title'] = 'Riwayat Transaksi';
+        $data['transactions'] = $this->cashier->getTransactionHistory();
+        $this->load->view('admin/cashier/transaction_history', $data);
     }
 }

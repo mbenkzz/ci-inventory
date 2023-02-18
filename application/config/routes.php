@@ -90,5 +90,6 @@ $route['admin_dapur/items/edit/(:num)']['GET'] = 'itemsController/edit/$1';
 $route['admin_dapur/items/edit/(:num)']['POST'] = 'itemsController/update/$1';
 $route['admin_dapur/items/delete'] = 'itemsController/delete';
 
-$route['admin_dapur/cashier'] = 'cashierController/index';
-$route['admin_dapur/cashier/add']['POST'] = 'cashierController/insert';
+$route['admin_dapur/transaction/cashier'] = 'cashierController/index';
+$route['admin_dapur/transaction/add']['POST'] = 'cashierController/insert';
+$route['admin_dapur/transaction/history'] = 'cashierController/history';

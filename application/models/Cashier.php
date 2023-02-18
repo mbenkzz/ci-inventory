@@ -38,7 +38,18 @@ class Cashier extends CI_Model {
     }
 
     public function insertTransactionDetail($data = []) {
-        $this->db->insert_batch('transaction_detail', $data);
+        $this->db->insert_batch('detail_transaction', $data);
         return $this->db->affected_rows();
+    }
+
+    public function getTransactionHistory() {
+        $this->db->select('t.*, u.fullname as cashier');
+        $this->db->from('transaction t');
+        $this->db->join('users u', 'u.id = t.created_by');
+        $this->db->where('t.deleted_at', null);
+        $this->db->order_by('t.created_at', 'DESC');
+        $sql = $this->db->get_compiled_select();
+
+        return $this->db->query($sql);
     }
 }
