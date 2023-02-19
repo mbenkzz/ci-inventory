@@ -52,4 +52,18 @@ class Cashier extends CI_Model {
 
         return $this->db->query($sql);
     }
+
+    public function getDetailTransaction($id = null) {
+        $this->db->select('*');
+        $this->db->from('detail_transaction');
+        if(is_array($id)){
+            $this->db->where_in('trans_id', $id);
+        } elseif (!is_null($id)) {
+            $this->db->where('trans_id', $id);
+        }
+        
+        $sql = $this->db->get_compiled_select();
+
+        return $this->db->query($sql);
+    }
 }

@@ -79,7 +79,7 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            <form action="<?= admin_url('cashier/add') ?>" method="post" id="form_transaksi">
+                            <form action="<?= admin_url('transaction/add') ?>" method="post" id="form_transaksi">
                                 <div class="item-list-header row border-top border-bottom py-2">
                                     <div class="col-2">
                                         <!-- checkbox -->

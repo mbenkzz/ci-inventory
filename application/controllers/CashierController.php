@@ -93,4 +93,18 @@ class CashierController extends CI_Controller
         $data['transactions'] = $this->cashier->getTransactionHistory();
         $this->load->view('admin/cashier/transaction_history', $data);
     }
+
+    public function getTransHistory() {
+        check_auth('ajax');
+
+        $transactions = $this->cashier->getTransactionHistory()->result();
+        $id = [];
+
+        foreach ($transactions as $transaction) {
+            $id[] = $transaction->id;
+        }
+
+        $details = $this->cashier->getTransactionDetail($id);
+        
+    }
 }
