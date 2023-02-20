@@ -94,8 +94,18 @@ class CashierController extends CI_Controller
         $this->load->view('admin/cashier/transaction_history', $data);
     }
 
-    public function getTransHistory() {
+    public function data_history() {
+        ajax_only();
         check_auth('ajax');
+
+        if(getSession()->role == 'admin') {
+            $this->getAdminTransHistory();
+        } else {
+            
+        }
+    }
+
+    private function getAdminTransHistory() {
 
         $transactions = $this->cashier->getTransactionHistory()->result();
         $id = [];
@@ -104,7 +114,17 @@ class CashierController extends CI_Controller
             $id[] = $transaction->id;
         }
 
-        $details = $this->cashier->getTransactionDetail($id);
+        $details = $this->cashier->getDetailTransaction($id)->result();
         
+        $items = [];
+        foreach ($details as $item) {
+            $items[$item->transaction_code][] = $item;
+        }
+
+        foreach ($transactions as $transaction) {
+            $transaction->items = $items[$transaction->code];
+        }
+
+        echo json_encode($transactions);
     }
 }

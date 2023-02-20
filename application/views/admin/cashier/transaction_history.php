@@ -67,7 +67,16 @@
     </div>
     <?php $this->load->view('admin/template-parts/scripts') ?>
     <script>
-
+        $(document).ready(function() {
+            $.ajax({
+                url: '<?= admin_url('transaction/history/data') ?>',
+                type: 'GET',
+                dataType: 'json',
+                success: function(response) {
+                    console.log(response);
+                }
+            })
+        })
     </script>
 </body>
 

@@ -54,8 +54,10 @@ class Cashier extends CI_Model {
     }
 
     public function getDetailTransaction($id = null) {
-        $this->db->select('*');
-        $this->db->from('detail_transaction');
+        $this->db->select('dt.*, t.code as transaction_code');
+        $this->db->from('detail_transaction dt');
+        // left join
+        $this->db->join('transaction t', 't.id = dt.trans_id', 'left');
         if(is_array($id)){
             $this->db->where_in('trans_id', $id);
         } elseif (!is_null($id)) {
