@@ -106,6 +106,7 @@ class CashierController extends CI_Controller
     }
 
     private function getAdminTransHistory() {
+        $response = [];
 
         $transactions = $this->cashier->getTransactionHistory()->result();
         $id = [];
@@ -117,14 +118,21 @@ class CashierController extends CI_Controller
         $details = $this->cashier->getDetailTransaction($id)->result();
         
         $items = [];
+        $total_buy = 0;
         foreach ($details as $item) {
             $items[$item->transaction_code][] = $item;
+            $total_buy += $item->buy_price * $item->amount;
         }
+        $response['total_buy'] = $total_buy;
 
+        $total_sell = 0;
         foreach ($transactions as $transaction) {
             $transaction->items = $items[$transaction->code];
+            $total_sell += $transaction->total;
         }
+        $response['total_sell'] = $total_sell;
 
-        echo json_encode($transactions);
+        $response['data'] = $transactions;
+        echo json_encode($response);
     }
 }
