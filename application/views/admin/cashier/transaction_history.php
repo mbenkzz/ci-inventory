@@ -3,6 +3,7 @@
 
 <head>
     <?php $this->load->view('admin/template-parts/head') ?>
+    <link href="https://unpkg.com/gijgo@1.9.14/css/gijgo.min.css" rel="stylesheet" type="text/css" />
     <style>
         .text-monospace {
             font-family: 'Courier New', Courier, monospace !important;
@@ -27,6 +28,25 @@
                 <div class="container-fluid">
                     <h1 class="my-4">Riwayat Transaksi</h1>
                     <div class="row">
+                        <div class="col-12 mb-3">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col">
+                                            <label for="datepicker_start">Periode Awal</label>
+                                            <input type="text" id="datepicker_start">
+                                        </div>
+                                        <div class="col">
+                                            <label for="datepicker_end">Periode Akhir</label>
+                                            <input type="text" id="datepicker_end">
+                                        </div>
+                                        <div class="col-auto">
+                                            <button class="btn btn-primary mt-4" onclick="get_transactions()">Tampilkan</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <div class="col-12 transaction-info-container"></div>
                     </div>
                 </div>
@@ -35,12 +55,42 @@
         </div>
     </div>
     <?php $this->load->view('admin/template-parts/scripts') ?>
+    <script src="https://unpkg.com/gijgo@1.9.14/js/gijgo.min.js" type="text/javascript"></script>
     <script>
         $(document).ready(function() {
+            var $datepicker_start = $('#datepicker_start').datepicker({
+                modal: true,
+                format: 'dd/mm/yyyy',
+                maxDate: function() {
+                    return $('#datepicker_end').val();
+                }
+            });
+
+            var $datepicker_end = $('#datepicker_end').datepicker({
+                modal: true,
+                format: 'dd/mm/yyyy'    ,
+                minDate: function() {
+                    return $('#datepicker_start').val();
+                }
+            });
+
+            $datepicker_start.value('<?= date('d/m/Y') ?>');
+            $datepicker_end.value('<?= date('d/m/Y') ?>');
+            get_transactions();
+        })
+
+        function get_transactions() {
+            var start_date = $('#datepicker_start').val();
+            var end_date = $('#datepicker_end').val();
+
             $.ajax({
                 url: '<?= admin_url('transaction/history/data') ?>',
                 type: 'GET',
                 dataType: 'json',
+                data: {
+                    start_date: start_date,
+                    end_date: end_date
+                },
                 success: function(response) {
                     if (response.status == 'success') {
                         var html = '';
@@ -54,7 +104,7 @@
                     }
                 }
             })
-        })
+        }
 
         function generate_row(transaction) {
             // generate html

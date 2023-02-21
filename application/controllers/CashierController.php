@@ -98,17 +98,46 @@ class CashierController extends CI_Controller
         ajax_only();
         check_auth('ajax');
 
-        if(getSession()->role == 'admin') {
-            $this->getAdminTransHistory();
-        } else {
-            
-        }
-    }
+        $start_date = $this->input->get('start_date');
+        $end_date = $this->input->get('end_date');
 
-    private function getAdminTransHistory() {
+        if (empty($start_date) || empty($end_date)) {
+            $response['status'] = 'error';
+            $response['message'] = 'Tanggal awal dan akhir harus diisi';
+            echo json_encode($response);
+            die;
+        }
+
+        if($start_date > $end_date) {
+            $response['status'] = 'error';
+            $response['message'] = 'Tanggal awal tidak boleh lebih besar dari tanggal akhir';
+            echo json_encode($response);
+            die;
+        }
+
+        // $start_date has format dd/mm/yyyy
+        if(!preg_match('/^\d{2}\/\d{2}\/\d{4}$/', $start_date)) {
+            $response['status'] = 'error';
+            $response['message'] = 'Format tanggal awal salah';
+            echo json_encode($response);
+            die;
+        } else {
+            $start_date = date_create_from_format('d/m/Y', $start_date)->format('Y-m-d') . ' 00:00:00';
+        }
+
+        // $end_date has format dd/mm/yyyy
+        if(!preg_match('/^\d{2}\/\d{2}\/\d{4}$/', $end_date)) {
+            $response['status'] = 'error';
+            $response['message'] = 'Format tanggal akhir salah';
+            echo json_encode($response);
+            die;
+        } else {
+            $end_date = date_create_from_format('d/m/Y', $end_date)->format('Y-m-d') . ' 23:59:59';
+        }
+
         $response = [];
 
-        $transactions = $this->cashier->getTransactionHistory()->result();
+        $transactions = $this->cashier->getTransactionHistory($start_date, $end_date)->result();
         $id = [];
 
         foreach ($transactions as $transaction) {

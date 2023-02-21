@@ -42,11 +42,16 @@ class Cashier extends CI_Model {
         return $this->db->affected_rows();
     }
 
-    public function getTransactionHistory() {
-        $this->db->select('t.*, u.fullname as cashier, u.role');
+    public function getTransactionHistory($start, $end) {
+        $this->db->select('t.*, u.fullname as cashier');
         $this->db->from('transaction t');
         $this->db->join('users u', 'u.id = t.created_by');
         $this->db->where('t.deleted_at', null);
+        $this->db->where('t.created_at >=', $start);
+        $this->db->where('t.created_at <=', $end);
+        if(getSession()->role != 'admin'){
+            $this->db->where('t.created_by', getSession()->id);
+        }
         $this->db->order_by('t.created_at', 'DESC');
         $sql = $this->db->get_compiled_select();
 
