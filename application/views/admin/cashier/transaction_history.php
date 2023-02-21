@@ -27,38 +27,7 @@
                 <div class="container-fluid">
                     <h1 class="my-4">Riwayat Transaksi</h1>
                     <div class="row">
-                        <div class="col-12">
-                            <?php for($x = 0; $x < 10; $x++): ?>
-                            <div class="card bg-light rounded-0 transaction-info">
-                                <div class="card-header p-0">
-                                    <div class="row no-gutters h5">
-                                        <div class="col-12 col-md p-3 cursor-pointer" data-toggle='collapse' data-target="#collapse-<?= $x ?>" aria-expanded="false" aria-controls="collapse-<?= $x ?>">
-                                            13-02-2021 09:35 | Kasir 1
-                                        </div>
-                                        <div class="col-12 col-md-3 p-3 text-md-right cursor-pointer" data-toggle='collapse' data-target="#collapse-<?= $x ?>" aria-expanded="false" aria-controls="collapse-<?= $x ?>">
-                                            <span class="text-monospace">100.000</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="card-body p-0 collapse" id="collapse-<?= $x ?>">
-                                    <div class="row h5 font-weight-normal py-2 px-3 border-bottom">
-                                        <div class="col-2">ITEM0001</div>
-                                        <div class="col">Beras</div>
-                                        <div class="col-1">10</div>
-                                        <div class="col-2 text-right">10.000</div>
-                                        <div class="col-3 text-right">100.000</div>
-                                    </div>
-                                    <div class="row h5 font-weight-normal py-2 px-3 border-bottom">
-                                        <div class="col-2">ITEM0002</div>
-                                        <div class="col">Gula</div>
-                                        <div class="col-1">10</div>
-                                        <div class="col-2 text-right">15.000</div>
-                                        <div class="col-3 text-right">150.000</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <?php endfor ?>
-                        </div>
+                        <div class="col-12 transaction-info-container"></div>
                     </div>
                 </div>
             </main>
@@ -73,42 +42,67 @@
                 type: 'GET',
                 dataType: 'json',
                 success: function(response) {
-                    console.log(response);
+                    if (response.status == 'success') {
+                        var html = '';
+                        $.each(response.data, function(index, transaction) {
+                            html += generate_row(transaction);
+                        });
+                        $('.transaction-info').remove();
+                        $('.transaction-info-container').append(html);
+                    } else {
+                        console.log(response.message);
+                    }
                 }
             })
         })
 
         function generate_row(transaction) {
             // generate html
+
+            console.log(transaction);
+
             var html = '';
             html += '<div class="card bg-light rounded-0 transaction-info">';
             html += '<div class="card-header p-0">';
             html += '<div class="row no-gutters h5">';
-            html += '<div class="col-12 col-md p-3 cursor-pointer" data-toggle="collapse" data-target="#collapse-1" aria-expanded="false" aria-controls="collapse-1">';
-            html += '13-02-2021 09:35 | Kasir 1';
+            html += '<div class="col-12 col-md p-3 cursor-pointer" data-toggle="collapse" data-target="#collapse-{:id}" aria-expanded="false" aria-controls="collapse-{:id}">';
+            html += '{:created_at} | {:cashier}';
             html += '</div>';
-            html += '<div class="col-12 col-md-3 p-3 text-md-right cursor-pointer" data-toggle="collapse" data-target="#collapse-1" aria-expanded="false" aria-controls="collapse-1">';
-            html += '<span class="text-monospace">100.000</span>';
+            html += '<div class="col-12 col-md-3 p-3 text-md-right cursor-pointer" data-toggle="collapse" data-target="#collapse-{:id}" aria-expanded="false" aria-controls="collapse-{:id}">';
+            html += '<span class="text-monospace">{:total}</span>';
             html += '</div>';
             html += '</div>';
             html += '</div>';
-            html += '<div class="card-body p-0 collapse" id="collapse-1">';
+            html += '<div class="card-body p-0 collapse" id="collapse-{:id}">';
+            var item_total = 0;
+            $.each(transaction.items, function(index, item) {
+                var item_html = '';
+                item_html += '<div class="row h5 font-weight-normal py-2 px-3 border-bottom">';
+                item_html += '<div class="col-12 col-sm">{:item_name} <span class="float-right text-center" style="width:3em">{:amount}</span></div>';
+                item_html += '<div class="col-auto col-sm-3 col-xl-3 text-right"> <span title="Harga Beli">{:buy_price}</span> / <span class="font-weight-bold" title="Harga Jual">{:sell_price}<span></div>';
+                item_html += '<div class="col-auto col-sm-2 col-xl-2 text-right">{:total}</div>';
+                item_html += '</div>';
+
+                item.total = parseInt(item.amount) * parseInt(item.sell_price);
+                item_total += item.total;
+
+                $.each(item, function(key, value) {
+                    item_html = item_html.replaceAll('{:' + key + '}', value);
+                });
+                html += item_html;
+            });
             html += '<div class="row h5 font-weight-normal py-2 px-3 border-bottom">';
-            html += '<div class="col-2">ITEM0001</div>';
-            html += '<div class="col">Beras</div>';
-            html += '<div class="col-1">10</div>';
-            html += '<div class="col-2 text-right">10.000</div>';
-            html += '<div class="col-3 text-right">100.000</div>';
-            html += '</div>';
-            html += '<div class="row h5 font-weight-normal py-2 px-3 border-bottom">';
-            html += '<div class="col-2">ITEM0002</div>';
-            html += '<div class="col">Gula</div>';
-            html += '<div class="col-1">10</div>';
-            html += '<div class="col-2 text-right">15.000</div>';
-            html += '<div class="col-3 text-right">150.000</div>';
+            html += '<div class="col-12 text-right">{:discount_badge}Subtotal: <span class="text-monospace">{:item_total}</span></div>';
             html += '</div>';
             html += '</div>';
-            html += '</div>';
+
+            // transaction.total = transaction.total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+            // transaction.item_total = item_total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+            transaction.item_total = item_total;
+            transaction.discount_badge = transaction.disc > 0 ? '<span class="badge badge-danger mx-3">Diskon : ' + transaction.disc + '</span>' : '';
+            $.each(transaction, function(key, value) {
+                html = html.replaceAll('{:' + key + '}', value);
+            });
             return html;
         }
     </script>

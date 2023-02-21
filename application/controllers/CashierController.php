@@ -120,6 +120,8 @@ class CashierController extends CI_Controller
         $items = [];
         $total_buy = 0;
         foreach ($details as $item) {
+            $item->string_buy_price = number_format($item->buy_price, 0, ',', '.');
+            $item->string_sell_price = number_format($item->sell_price, 0, ',', '.');
             $items[$item->transaction_code][] = $item;
             $total_buy += $item->buy_price * $item->amount;
         }
@@ -128,11 +130,13 @@ class CashierController extends CI_Controller
         $total_sell = 0;
         foreach ($transactions as $transaction) {
             $transaction->items = $items[$transaction->code];
+            $transaction->created_at = date_create_from_format('Y-m-d H:i:s', $transaction->created_at)->format('d/m/Y H:i');
             $total_sell += $transaction->total;
         }
         $response['total_sell'] = $total_sell;
 
         $response['data'] = $transactions;
+        $response['status'] = 'success';
         echo json_encode($response);
     }
 }

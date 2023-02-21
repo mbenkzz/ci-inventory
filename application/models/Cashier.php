@@ -43,7 +43,7 @@ class Cashier extends CI_Model {
     }
 
     public function getTransactionHistory() {
-        $this->db->select('t.*, u.fullname as cashier');
+        $this->db->select('t.*, u.fullname as cashier, u.role');
         $this->db->from('transaction t');
         $this->db->join('users u', 'u.id = t.created_by');
         $this->db->where('t.deleted_at', null);
