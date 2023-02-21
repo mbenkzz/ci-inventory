@@ -77,6 +77,40 @@
                 }
             })
         })
+
+        function generate_row(transaction) {
+            // generate html
+            var html = '';
+            html += '<div class="card bg-light rounded-0 transaction-info">';
+            html += '<div class="card-header p-0">';
+            html += '<div class="row no-gutters h5">';
+            html += '<div class="col-12 col-md p-3 cursor-pointer" data-toggle="collapse" data-target="#collapse-1" aria-expanded="false" aria-controls="collapse-1">';
+            html += '13-02-2021 09:35 | Kasir 1';
+            html += '</div>';
+            html += '<div class="col-12 col-md-3 p-3 text-md-right cursor-pointer" data-toggle="collapse" data-target="#collapse-1" aria-expanded="false" aria-controls="collapse-1">';
+            html += '<span class="text-monospace">100.000</span>';
+            html += '</div>';
+            html += '</div>';
+            html += '</div>';
+            html += '<div class="card-body p-0 collapse" id="collapse-1">';
+            html += '<div class="row h5 font-weight-normal py-2 px-3 border-bottom">';
+            html += '<div class="col-2">ITEM0001</div>';
+            html += '<div class="col">Beras</div>';
+            html += '<div class="col-1">10</div>';
+            html += '<div class="col-2 text-right">10.000</div>';
+            html += '<div class="col-3 text-right">100.000</div>';
+            html += '</div>';
+            html += '<div class="row h5 font-weight-normal py-2 px-3 border-bottom">';
+            html += '<div class="col-2">ITEM0002</div>';
+            html += '<div class="col">Gula</div>';
+            html += '<div class="col-1">10</div>';
+            html += '<div class="col-2 text-right">15.000</div>';
+            html += '<div class="col-3 text-right">150.000</div>';
+            html += '</div>';
+            html += '</div>';
+            html += '</div>';
+            return html;
+        }
     </script>
 </body>
 
