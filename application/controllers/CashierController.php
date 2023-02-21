@@ -90,7 +90,6 @@ class CashierController extends CI_Controller
     public function history() {
         check_auth();
         $data['title'] = 'Riwayat Transaksi';
-        $data['transactions'] = $this->cashier->getTransactionHistory();
         $this->load->view('admin/cashier/transaction_history', $data);
     }
 

@@ -69,6 +69,8 @@ class Cashier extends CI_Model {
             } else {
                 $this->db->where('trans_id', $id);
             }
+        } else {
+            $this->db->where(1, 0);
         }
         
         $sql = $this->db->get_compiled_select();

@@ -48,6 +48,14 @@
                             </div>
                         </div>
                         <div class="col-12 transaction-info-container"></div>
+                        <div class="col-12 transaction-info-conclusion invisible">
+                            <div class="card">
+                                <div class="card-body">
+                                    <p class="h6">Total Pemasukan / Pengeluaran : <span id="pemasukan">0</span> / <span id="pengeluaran">0</span> </p>
+                                    <p class="h5">Hasil : <span id="laba"></span></p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </main>
@@ -92,15 +100,45 @@
                     end_date: end_date
                 },
                 success: function(response) {
+                    var html = '';
                     if (response.status == 'success') {
-                        var html = '';
                         $.each(response.data, function(index, transaction) {
                             html += generate_row(transaction);
                         });
                         $('.transaction-info').remove();
                         $('.transaction-info-container').append(html);
+
+                        if(response.data.length == 0) {
+                            html = '<div class="col-12">';
+                            html += '<div class="card bg-light rounded-0 transaction-info">';
+                            html += '<div class="card-body">';
+                            html += '<p class="h5 text-center">Tidak ada transaksi</p>';
+                            html += '</div>';
+                            html += '</div>';
+                            html += '</div>';
+                            $('.transaction-info-container').append(html);
+                            $('.transaction-info-conclusion').addClass('invisible');
+                            return;
+                        }
+                        $('.transaction-info-conclusion').removeClass('invisible');
+
+                        $('#pemasukan').text(response.total_sell);
+                        $('#pengeluaran').text(response.total_buy);
+                        var laba = response.total_sell - response.total_buy;
+                        if(laba < 0) {
+                            $('#laba').removeClass('text-success');
+                            $('#laba').text(laba).addClass('text-danger');
+                        } else {
+                            $('#laba').removeClass('text-danger');
+                            $('#laba').text(laba).addClass('text-success');
+                        }
                     } else {
-                        console.log(response.message);
+                        html = '<div class="col-12">';
+                        html += '<div class="alert alert-danger" role="alert">';
+                        html += response.message;
+                        html += '</div>';
+                        html += '</div>';
+                        $('.transaction-info-container').append(html);
                     }
                 }
             })
@@ -143,6 +181,7 @@
             });
             html += '<div class="row h5 font-weight-normal py-2 px-3 border-bottom">';
             html += '<div class="col-12 text-right">{:discount_badge}Subtotal: <span class="text-monospace">{:item_total}</span></div>';
+            html += '</div>';
             html += '</div>';
             html += '</div>';
 
