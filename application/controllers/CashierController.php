@@ -1,22 +1,25 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class CashierController extends CI_Controller 
+class CashierController extends CI_Controller
 {
 
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
         $this->load->model('Item', 'item');
         $this->load->model('Cashier', 'cashier');
     }
 
-    public function index() {
+    public function index()
+    {
         check_auth();
         $data['title'] = 'Kasir';
         $this->load->view('admin/cashier/index', $data);
     }
 
-    public function insert() {
+    public function insert()
+    {
         check_auth();
         $errors = [];
 
@@ -24,7 +27,8 @@ class CashierController extends CI_Controller
         $transaction_code = $this->cashier->generateTransactionCode();
 
         $data = $this->input->post();
-        if ($data['pay'] < $data['total']) {}
+        if ($data['pay'] < $data['total']) {
+        }
         $data['code'] = $transaction_code;
         $data['discount'] = !empty($data['discount']) ? $data['discount'] : 0;
 
@@ -75,7 +79,7 @@ class CashierController extends CI_Controller
         // insert into transaction_detail table
         $this->cashier->insertTransactionDetail($details);
 
-        if(!empty($errors)) {
+        if (!empty($errors)) {
             $this->session->set_flashdata('error', $error);
             $this->session->set_flashdata('form_data', $this->input->post());
             redirect(admin_url('transaction/cashier'));
@@ -87,13 +91,15 @@ class CashierController extends CI_Controller
         redirect(admin_url('transaction/cashier'));
     }
 
-    public function history() {
+    public function history()
+    {
         check_auth();
         $data['title'] = 'Riwayat Transaksi';
         $this->load->view('admin/cashier/transaction_history', $data);
     }
 
-    public function data_history() {
+    public function data_history()
+    {
         ajax_only();
         check_auth('ajax');
 
@@ -107,7 +113,7 @@ class CashierController extends CI_Controller
             die;
         }
 
-        if($start_date > $end_date) {
+        if ($start_date > $end_date) {
             $response['status'] = 'error';
             $response['message'] = 'Tanggal awal tidak boleh lebih besar dari tanggal akhir';
             echo json_encode($response);
@@ -115,7 +121,7 @@ class CashierController extends CI_Controller
         }
 
         // $start_date has format dd/mm/yyyy
-        if(!preg_match('/^\d{2}\/\d{2}\/\d{4}$/', $start_date)) {
+        if (!preg_match('/^\d{2}\/\d{2}\/\d{4}$/', $start_date)) {
             $response['status'] = 'error';
             $response['message'] = 'Format tanggal awal salah';
             echo json_encode($response);
@@ -125,7 +131,7 @@ class CashierController extends CI_Controller
         }
 
         // $end_date has format dd/mm/yyyy
-        if(!preg_match('/^\d{2}\/\d{2}\/\d{4}$/', $end_date)) {
+        if (!preg_match('/^\d{2}\/\d{2}\/\d{4}$/', $end_date)) {
             $response['status'] = 'error';
             $response['message'] = 'Format tanggal akhir salah';
             echo json_encode($response);
@@ -144,7 +150,7 @@ class CashierController extends CI_Controller
         }
 
         $details = $this->cashier->getDetailTransaction($id)->result();
-        
+
         $items = [];
         $total_buy = 0;
         foreach ($details as $item) {
@@ -166,5 +172,50 @@ class CashierController extends CI_Controller
         $response['data'] = $transactions;
         $response['status'] = 'success';
         echo json_encode($response);
+    }
+
+    public function print($code)
+    {
+        check_auth();
+        $this->load->library('pdf', ['unit' => 'mm', 'size' => 'A5', 'orientation' => 'P'], 'fpdf');
+
+        $transaction = $this->cashier->getSingleTransaction($code)->row();
+
+        $this->fpdf->AddPage();
+        $this->fpdf->SetFont('Arial', 'B', 16);
+        $this->fpdf->Cell(0, 5, 'Dapurbude', 0, 1, 'C');
+
+        $this->fpdf->Cell(0, 5, '----------------------------------------', 0, 1, 'C');
+
+        $this->fpdf->Cell(0, 5, 'Kode Transaksi: ' . $transaction->code, 0, 1, 'L');
+        $this->fpdf->Cell(0, 5, 'Tanggal: ' . date_create_from_format('Y-m-d H:i:s', $transaction->created_at)->format('d/m/Y H:i'), 0, 1, 'L');
+        $this->fpdf->Cell(0, 5, 'Kasir: ' . $transaction->cashier, 0, 1, 'L');
+
+        $this->fpdf->Cell(0, 5, '----------------------------------------', 0, 1, 'C');
+
+        $this->fpdf->Cell(0, 5, 'Nama Barang', 0, 0, 'L');
+        $this->fpdf->Cell(0, 5, 'Harga', 0, 0, 'R');
+        $this->fpdf->Cell(0, 5, 'Jumlah', 0, 0, 'R');
+        $this->fpdf->Cell(0, 5, 'Total', 0, 1, 'R');
+
+        $this->fpdf->Cell(0, 5, '----------------------------------------', 0, 1, 'C');
+        
+        $details = $this->cashier->getDetailTransaction($transaction->id)->result();
+        foreach ($details as $item) {
+            $this->fpdf->Cell(0, 5, $item->item_name, 0, 0, 'L');
+            $this->fpdf->Cell(0, 5, number_format($item->sell_price, 0, ',', '.'), 0, 0, 'R');
+            $this->fpdf->Cell(0, 5, $item->amount, 0, 0, 'R');
+            $this->fpdf->Cell(0, 5, number_format($item->sell_price * $item->amount, 0, ',', '.'), 0, 1, 'R');
+        }
+
+        $this->fpdf->Cell(0, 5, '----------------------------------------', 0, 1, 'C');
+
+        $this->fpdf->Cell(0, 5, 'Total: ' . number_format($transaction->total, 0, ',', '.'), 0, 1, 'R');
+
+        $this->fpdf->Cell(0, 5, '----------------------------------------', 0, 1, 'C');
+
+        $this->fpdf->Cell(0, 5, 'Terima Kasih', 0, 1, 'C');
+
+        $this->fpdf->Output();
     }
 }

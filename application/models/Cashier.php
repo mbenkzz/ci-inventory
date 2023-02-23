@@ -58,6 +58,17 @@ class Cashier extends CI_Model {
         return $this->db->query($sql);
     }
 
+    public function getSingleTransaction($id) {
+        $this->db->select('t.*, u.fullname as cashier');
+        $this->db->from('transaction t');
+        $this->db->join('users u', 'u.id = t.created_by');
+        $this->db->where('t.deleted_at', null);
+        $this->db->where('t.id', $id);
+        $sql = $this->db->get_compiled_select();
+
+        return $this->db->query($sql);
+    }
+
     public function getDetailTransaction($id = null) {
         $this->db->select('dt.*, t.code as transaction_code');
         $this->db->from('detail_transaction dt');

@@ -94,3 +94,4 @@ $route['admin_dapur/transaction/cashier'] = 'cashierController/index';
 $route['admin_dapur/transaction/add']['POST'] = 'cashierController/insert';
 $route['admin_dapur/transaction/history'] = 'cashierController/history';
 $route['admin_dapur/transaction/history/data'] = 'cashierController/data_history';
+$route['admin_dapur/transaction/print/(:num)']['GET'] = 'cashierController/print/$1';

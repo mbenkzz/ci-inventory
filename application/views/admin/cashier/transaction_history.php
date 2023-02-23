@@ -52,7 +52,7 @@
                             <div class="card">
                                 <div class="card-body">
                                     <p class="h6">Total Pemasukan / Pengeluaran : <span id="pemasukan">0</span> / <span id="pengeluaran">0</span> </p>
-                                    <p class="h5">Hasil : <span id="laba"></span></p>
+                                    <p class="h5">Hasil : <span id="laba"></span> </p>
                                 </div>
                             </div>
                         </div>
@@ -128,9 +128,13 @@
                         if(laba < 0) {
                             $('#laba').removeClass('text-success');
                             $('#laba').text(laba).addClass('text-danger');
+                            $('#laba').append(' (Rugi)');
                         } else {
                             $('#laba').removeClass('text-danger');
                             $('#laba').text(laba).addClass('text-success');
+                            if (laba > 0) {
+                                $('#laba').append(' (Untung)');
+                            }
                         }
                     } else {
                         html = '<div class="col-12">';
@@ -180,7 +184,8 @@
                 html += item_html;
             });
             html += '<div class="row h5 font-weight-normal py-2 px-3 border-bottom">';
-            html += '<div class="col-12 text-right">{:discount_badge}Subtotal: <span class="text-monospace">{:item_total}</span></div>';
+            html += '<div class="col-2"><a class="btn btn-sm btn-outline-danger" href="<?= admin_url("transaction/print") ?>/{:id}" target="_blank">Cetak</a></div>';
+            html += '<div class="col-10 text-right">{:discount_badge}Subtotal: <span class="text-monospace">{:item_total}</span></div>';
             html += '</div>';
             html += '</div>';
             html += '</div>';
