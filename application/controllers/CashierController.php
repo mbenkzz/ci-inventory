@@ -184,36 +184,45 @@ class CashierController extends CI_Controller
         $this->fpdf->AddPage();
         $this->fpdf->SetFont('Arial', 'B', 16);
         $this->fpdf->Cell(0, 5, 'Dapurbude', 0, 1, 'C');
+        $this->fpdf->setY($this->fpdf->getY() + 5);
 
-        $this->fpdf->Cell(0, 5, '----------------------------------------', 0, 1, 'C');
+        $this->fpdf->SetFont('Courier', 'B', 12);
+        $this->fpdf->Cell(0, 5, $transaction->code, 0, 1, 'L');
+        $this->fpdf->Cell(50, 5, date_create_from_format('Y-m-d H:i:s', $transaction->created_at)->format('d.m.Y-H:i'), 0, 0, 'L');
+        $this->fpdf->Cell(0, 5, 'Kasir: ' . $transaction->cashier, 0, 1, 'R');
 
-        $this->fpdf->Cell(0, 5, 'Kode Transaksi: ' . $transaction->code, 0, 1, 'L');
-        $this->fpdf->Cell(0, 5, 'Tanggal: ' . date_create_from_format('Y-m-d H:i:s', $transaction->created_at)->format('d/m/Y H:i'), 0, 1, 'L');
-        $this->fpdf->Cell(0, 5, 'Kasir: ' . $transaction->cashier, 0, 1, 'L');
+        $w = array(60, 20, 20, 0);
+        $header = array('Nama Barang', 'Harga', 'Jumlah', 'Total');
 
-        $this->fpdf->Cell(0, 5, '----------------------------------------', 0, 1, 'C');
+        $x = $this->fpdf->getX();
+        $this->fpdf->Line($x, $this->fpdf->getY(), $x + 128, $this->fpdf->getY());
 
-        $this->fpdf->Cell(0, 5, 'Nama Barang', 0, 0, 'L');
-        $this->fpdf->Cell(0, 5, 'Harga', 0, 0, 'R');
-        $this->fpdf->Cell(0, 5, 'Jumlah', 0, 0, 'R');
-        $this->fpdf->Cell(0, 5, 'Total', 0, 1, 'R');
-
-        $this->fpdf->Cell(0, 5, '----------------------------------------', 0, 1, 'C');
+        $this->fpdf->SetFont('Courier', '', 10);
+        // for ($i = 0; $i < count($header); $i++) {
+        //     $this->fpdf->Cell($w[$i], 7, $header[$i], 1, 0, 'C');
+        // }
         
         $details = $this->cashier->getDetailTransaction($transaction->id)->result();
+        $subtotal = 0;
         foreach ($details as $item) {
-            $this->fpdf->Cell(0, 5, $item->item_name, 0, 0, 'L');
-            $this->fpdf->Cell(0, 5, number_format($item->sell_price, 0, ',', '.'), 0, 0, 'R');
-            $this->fpdf->Cell(0, 5, $item->amount, 0, 0, 'R');
-            $this->fpdf->Cell(0, 5, number_format($item->sell_price * $item->amount, 0, ',', '.'), 0, 1, 'R');
+            $this->fpdf->Cell($w[0], 5, $item->item_name, 0, 0, 'L');
+            $this->fpdf->Cell($w[1], 5, number_format($item->sell_price, 0, ',', '.'), 0, 0, 'R');
+            $this->fpdf->Cell($w[2], 5, $item->amount, 0, 0, 'R');
+            $this->fpdf->Cell($w[3], 5, number_format($item->sell_price * $item->amount, 0, ',', '.'), 0, 1, 'R');
+            $subtotal += $item->sell_price * $item->amount;
         }
+        $this->fpdf->Line($x, $this->fpdf->getY(), $x + 128, $this->fpdf->getY());
 
-        $this->fpdf->Cell(0, 5, '----------------------------------------', 0, 1, 'C');
-
+        $this->fpdf->Cell(0, 5, 'Subtotal: ' . number_format($subtotal, 0, ',', '.'), 0, 1, 'R');
+        $this->fpdf->Cell(0, 5, 'Diskon: ' . number_format($transaction->disc, 0, ',', '.'), 0, 1, 'R');
         $this->fpdf->Cell(0, 5, 'Total: ' . number_format($transaction->total, 0, ',', '.'), 0, 1, 'R');
+        $this->fpdf->Cell(0, 5, 'Bayar: ' . number_format($transaction->paid, 0, ',', '.'), 0, 1, 'R');
+        $this->fpdf->Cell(0, 5, 'Kembali: ' . number_format($transaction->change, 0, ',', '.'), 0, 1, 'R');
 
         $this->fpdf->Cell(0, 5, '----------------------------------------', 0, 1, 'C');
-
+        $this->fpdf->Cell(0, 5, 'Barang yang telah dibeli', 0, 1, 'C');
+        $this->fpdf->Cell(0, 5, 'tidak dapat ditukar atau dikembalikan', 0, 1, 'C');
+        $this->fpdf->SetFont('Courier', '', 12);
         $this->fpdf->Cell(0, 5, 'Terima Kasih', 0, 1, 'C');
 
         $this->fpdf->Output();
