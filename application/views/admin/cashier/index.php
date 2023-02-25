@@ -142,7 +142,7 @@
                                                 Bayar
                                             </div>
                                             <div class="col-6 col-md-4 text-right text-monospace">
-                                                <input type="text" class="form-control form-control-sm text-right p-0 border-0 font-weight-bold" id="cart_input_pay" name="pay">
+                                                <input type="text" class="form-control form-control-sm text-right p-0 border-0 font-weight-bold" id="cart_input_pay" name="paid">
                                             </div>
                                         </div>
                                         <div class="row item-list-footer invisible border py-2">
@@ -153,6 +153,7 @@
                                             <div class="col-6 col-md-4 text-right text-monospace" id="cart_change_money">
                                                 90.000
                                             </div>
+                                            <input type="hidden" name="change" id="cart_input_change_money">
                                         </div>
                                         <!-- proceed button -->
                                         <div class="row item-list-footer invisible border py-2">
@@ -436,6 +437,7 @@
             var money = parseInt($('#cart_input_pay').val()) || 0;
             var change = money - total;
             $('#cart_change_money').text(change.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
+            $('#cart_input_change_money').val(change);
             $('#btn_proceed').prop('disabled', (change < 0))
             if (change < 0) {
                 $('#cart_change_money').addClass('text-danger');
