@@ -191,6 +191,9 @@ INSERT INTO `items` (`id`, `item_code`, `category_id`, `name`, `buy_price`, `sel
 (181, 'ITEM0181', 8, 'Thinwal 1500', '1800', '2500', 0, 'pcs', NULL),
 (182, 'ITEM0182', 3, 'Minyak Goreng Resto 1L', '23500', '25000', 0, 'pcs', NULL);
 
+-- UPDATE ALL ITEMS TO MAKE FAKE STOCK
+UPDATE items SET stock = FLOOR(RAND() * 100);
+
 --
 -- AUTO_INCREMENT for table `categories`
 --
