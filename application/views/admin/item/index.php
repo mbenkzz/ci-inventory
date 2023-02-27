@@ -240,39 +240,6 @@
             });
         });
 
-        // function delete_item(id) {
-        //     swal({
-        //         title: "Apakah Anda yakin?",
-        //         text: "Data yang dihapus tidak dapat dikembalikan!",
-        //         icon: "warning",
-        //         buttons: true,
-        //         dangerMode: true,
-        //     }).then((willDelete) => {
-        //         if (willDelete) {
-        //             $.ajax({
-        //                 url: "<?= admin_url('items/delete') ?>",
-        //                 type: "POST",
-        //                 data: {
-        //                     id: id
-        //                 },
-        //                 dataType: "json",
-        //                 success: function(json) {
-        //                     if (json.status == 'success') {
-        //                         swal("Data berhasil dihapus!", {
-        //                             icon: "success",
-        //                         }).then((value) => {
-        //                             location.reload();
-        //                         });
-        //                     } else {
-        //                         swal("Data gagal dihapus!", {
-        //                             icon: "error",
-        //                         });
-        //                     }
-        //                 }
-        //             });
-        //         }
-        //     });
-        // }
     </script>
 </body>
 
