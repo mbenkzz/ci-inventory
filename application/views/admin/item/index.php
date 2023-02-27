@@ -223,7 +223,7 @@
                             icon: "success",
                         }).then((value) => {
                             $('#modal_update_stock').modal('hide');
-                            location.reload();
+                            datatable_item.draw(false);
                         });
                     } else {
                         // remove all help block
