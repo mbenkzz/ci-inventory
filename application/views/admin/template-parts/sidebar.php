@@ -23,10 +23,12 @@
                 <div class="sb-nav-link-icon"><i class="fas fa-boxes fa-fw"></i></div>
                 Inventaris
             </a>
+            <?php if(getSession('role') == 'admin'): ?>
             <a class="nav-link <?= getSegment(2) == 'user' ? 'active' : ''?>" href="<?= admin_url('user') ?>">
                 <div class="sb-nav-link-icon"><i class="fas fa-users fa-fw"></i></div>
                 Pengguna
             </a>
+            <?php endif; ?>
             <div class="sb-sidenav-menu-heading">Other</div>
             <a role="button" class="nav-link" href="#" onclick="logout()">
                 <div class="sb-nav-link-icon"><i class="fas fa-sign-out-alt fa-fw"></i></div>
