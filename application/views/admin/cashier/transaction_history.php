@@ -48,6 +48,7 @@
                             </div>
                         </div>
                         <div class="col-12 transaction-info-container"></div>
+                        <?php if(getSession()->role == 'admin'): ?>
                         <div class="col-12 transaction-info-conclusion invisible">
                             <div class="card">
                                 <div class="card-body">
@@ -56,6 +57,7 @@
                                 </div>
                             </div>
                         </div>
+                        <?php endif ?>
                     </div>
                 </div>
             </main>
@@ -117,9 +119,12 @@
                             html += '</div>';
                             html += '</div>';
                             $('.transaction-info-container').append(html);
-                            $('.transaction-info-conclusion').addClass('invisible');
+                            <?php if(getSession()->role == 'admin'): ?>
+                              $('.transaction-info-conclusion').addClass('invisible');
+                            <?php endif ?>
                             return;
                         }
+                        <?php if(getSession()->role == 'admin'): ?>
                         $('.transaction-info-conclusion').removeClass('invisible');
 
                         $('#pemasukan').text(response.total_sell);
@@ -136,6 +141,7 @@
                                 $('#laba').append(' (Untung)');
                             }
                         }
+                        <?php endif ?>
                     } else {
                         html = '<div class="col-12">';
                         html += '<div class="alert alert-danger" role="alert">';

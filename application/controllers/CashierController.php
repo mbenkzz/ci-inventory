@@ -179,9 +179,15 @@ class CashierController extends CI_Controller
   public function print($code)
   {
     check_auth();
-    $this->load->library('pdf', ['unit' => 'mm', 'size' => 'A5', 'orientation' => 'P'], 'fpdf');
 
     $transaction = $this->cashier->getSingleTransaction($code)->row();
+
+    if($transaction->created_by != getSession()->id) {
+      redirect(admin_url('transaction/cashier'));
+      die;
+    }
+
+    $this->load->library('pdf', ['unit' => 'mm', 'size' => 'A5', 'orientation' => 'P'], 'fpdf');
 
     $this->fpdf->AddPage();
     $this->fpdf->SetFont('Arial', 'B', 16);
