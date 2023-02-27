@@ -221,7 +221,8 @@
           cache: false,
         },
         templateResult: function(item) {
-          if (!item.disabled) {
+          console.log(item);
+          if (!item.loading) {
             let badge = '';
             if (parseInt(item.stock) < 1) {
               badge = '<span class="badge badge-danger badge-stock">habis</span>';
@@ -230,8 +231,8 @@
             }
             var price_badge = '<span class="badge badge-primary badge-price"> Rp. ' + item.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + '</span>';
             var html = '<div class="row no-gutters">';
-            html += '<div class="col-9 text-truncate">' + item.text + ' (' + item.unit + ')</div>';
-            html += '<div class="col-3 text-right">' + badge + price_badge + '</div>';
+            html += '<div class="col text-truncate">' + item.text + ' (' + item.unit + ')</div>';
+            html += '<div class="col-auto text-right">' + badge + price_badge + '</div>';
             html += '</div>';
             return html;
           }
