@@ -23,7 +23,7 @@
                 <div class="sb-nav-link-icon"><i class="fas fa-boxes fa-fw"></i></div>
                 Inventaris
             </a>
-            <?php if(getSession('role') == 'admin'): ?>
+            <?php if(getSession()->role == 'admin'): ?>
             <a class="nav-link <?= getSegment(2) == 'user' ? 'active' : ''?>" href="<?= admin_url('user') ?>">
                 <div class="sb-nav-link-icon"><i class="fas fa-users fa-fw"></i></div>
                 Pengguna
