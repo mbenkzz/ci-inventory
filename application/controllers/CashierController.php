@@ -181,8 +181,7 @@ class CashierController extends CI_Controller
     check_auth();
 
     $transaction = $this->cashier->getSingleTransaction($code)->row();
-
-    if($transaction->created_by != getSession()->id) {
+    if($transaction->created_by != getSession()->id && getSession()->role != 'admin') {
       redirect(admin_url('transaction/cashier'));
       die;
     }
