@@ -84,8 +84,8 @@
                 }
             });
 
-            $datepicker_start.value('<?= date('d/m/Y') ?>');
-            $datepicker_end.value('<?= date('d/m/Y') ?>');
+            $datepicker_start.value('<?= $_GET['start'] ?? date('d/m/Y') ?>');
+            $datepicker_end.value('<?= $_GET['end'] ?? date('d/m/Y') ?>');
             get_transactions();
         })
 
@@ -181,7 +181,7 @@
                 item_html += '<div class="col-auto col-sm-2 col-xl-2 text-right">{:total}</div>';
                 item_html += '</div>';
 
-                item.total = parseInt(item.amount) * parseInt(item.sell_price);
+                item.total = Math.ceil(parseFloat(item.amount) * parseInt(item.sell_price));
                 item_total += item.total;
 
                 $.each(item, function(key, value) {

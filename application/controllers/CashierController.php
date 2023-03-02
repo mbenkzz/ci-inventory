@@ -90,6 +90,10 @@ class CashierController extends CI_Controller
 
     $this->db->trans_complete();
 
+    // set flashdata
+    $this->session->set_flashdata('transaction_id', $trans_id);
+    $this->session->set_flashdata('transaction_code', $transaction_code);
+    
     redirect(admin_url('transaction/cashier'));
   }
 
@@ -214,7 +218,7 @@ class CashierController extends CI_Controller
     foreach ($details as $item) {
       $this->fpdf->Cell($w[0], 5, $item->item_name, 0, 0, 'L');
       $this->fpdf->Cell($w[1], 5, number_format($item->sell_price, 0, ',', '.'), 0, 0, 'R');
-      $this->fpdf->Cell($w[2], 5, $item->amount, 0, 0, 'R');
+      $this->fpdf->Cell($w[2], 5, str_replace('.',',',$item->amount), 0, 0, 'R');
       $this->fpdf->Cell($w[3], 5, number_format($item->sell_price * $item->amount, 0, ',', '.'), 0, 1, 'R');
       $subtotal += $item->sell_price * $item->amount;
     }

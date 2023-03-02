@@ -60,7 +60,7 @@
                                             </div>
                                             <div class="col-xl-2 col-lg-3 col-md-6 mb-2">
                                                 <label class="" for="add_barang_unit">Satuan</label>
-                                                <input type="text" name="unit" class="form-control mr-sm-2" placeholder="(pcs, unit, roll)">
+                                                <input type="text" name="unit" class="form-control mr-sm-2" placeholder="(pcs, Kg, dll)">
                                                 <small class="text-danger"></small>
                                             </div>
                                             <div class="col-xl-4 col-lg-3 col-md-6 mb-2">
@@ -198,10 +198,12 @@
         }
 
         $(document).on('change input', '#edit_barang_stok', function(e) {
-            this.value = this.value.replace(/[^0-9]/g, '');
+            // 0.5 1.45 34.65
+            // if comma change to dot
+            this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');
             let $input = $(this);
-            let addition = parseInt($input.val());
-            let before = parseInt($('#edit_barang_stok_before').html());
+            let addition = parseFloat($input.val());
+            let before = parseFloat($('#edit_barang_stok_before').html());
             let after = before + addition;
             $('#edit_barang_stok_addition').text(addition);
             $('#edit_barang_stok_total').text(after);

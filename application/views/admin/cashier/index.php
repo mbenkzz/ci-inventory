@@ -46,6 +46,15 @@
     <div id="layoutSidenav_content">
       <main>
         <div class="container-fluid">
+          <!-- check flash session transaction_id and show success alert -->
+          <?php if ($this->session->flashdata('transaction_id')) : ?>
+            <div class="alert alert-success mt-4 alert-dismissible fade show" role="alert">
+              <strong>Transaksi <?= $this->session->flashdata('transaction_code') ?> berhasil!</strong> <a href="<?= admin_url('transaction/print/' . $this->session->flashdata('transaction_id')) ?>" target="_blank" class="alert-link">Klik untuk melihat struk</a>
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+          <?php endif ?>
           <div class="card my-4">
             <div class="card-header">
               <i class="fas fa-table mr-1"></i>
@@ -61,11 +70,11 @@
                 <div class="col-md-4 mb-3">
                   <div class="input-group">
                     <div class="input-group-prepend">
-                      <button class="btn btn-outline-secondary" type="button" data-toggle="input-number" data-action="minus" disabled><i class="fas fa-minus"></i></button>
+                      <button class="btn btn-outline-secondary add_barang_amount_modifier" type="button" data-action="minus" disabled><i class="fas fa-minus"></i></button>
                     </div>
-                    <input type="text" class="form-control text-center input-number" id="add_barang_amount" placeholder="Jumlah" data-min="1" disabled>
+                    <input type="text" class="form-control text-center" id="add_barang_amount" placeholder="Jumlah" data-min="0" disabled>
                     <div class="input-group-append">
-                      <button class="btn btn-outline-secondary" type="button" data-toggle="input-number" data-action="plus" disabled><i class="fas fa-plus"></i></button>
+                      <button class="btn btn-outline-secondary add_barang_amount_modifier" type="button" data-action="plus" disabled><i class="fas fa-plus"></i></button>
                     </div>
                   </div>
                   <small class="text-danger"></small>
@@ -208,12 +217,12 @@
                 return {
                   id: item.id,
                   text: item.text,
-                  disabled: parseInt(item.stock) < 1,
+                  disabled: parseFloat(item.stock) < 1,
                   code: item.code,
                   name: item.name,
-                  stock: parseInt(item.stock),
+                  stock: parseFloat(item.stock),
                   unit: item.unit,
-                  price: parseInt(item.price),
+                  price: parseFloat(item.price),
                 }
               }),
             };
@@ -221,17 +230,15 @@
           cache: false,
         },
         templateResult: function(item) {
-          console.log(item);
           if (!item.loading) {
             let badge = '';
-            if (parseInt(item.stock) < 1) {
-              badge = '<span class="badge badge-danger badge-stock">habis</span>';
-            } else {
-              badge = '<span class="badge badge-success badge-stock">' + item.stock + '</span>';
-            }
+
+            let string_stock = item.stock.toString().replace('.', ',');
+            let badge_class = (parseFloat(item.stock) > 0) ? 'badge-success' : 'badge-danger';
+            badge = '<span class="badge ' + badge_class + ' badge-stock">' + string_stock + ' ' + item.unit + '</span>';
             var price_badge = '<span class="badge badge-primary badge-price"> Rp. ' + item.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + '</span>';
             var html = '<div class="row no-gutters">';
-            html += '<div class="col text-truncate" title="' + item.text + '">' + item.text + ' (' + item.unit + ')</div>';
+            html += '<div class="col text-truncate" title="' + item.text + '">' + item.text + '</div>';
             html += '<div class="col-auto text-right">' + badge + price_badge + '</div>';
             html += '</div>';
             return html;
@@ -277,94 +284,128 @@
       $('#add_barang_amount').attr('placeholder', 'jumlah (maks : ' + selectedItem.stock + ')')
     });
 
-    $('#add_barang_amount').on('input', function() {
-      var amount = parseInt($(this).val());
-      var max = parseInt($(this).attr('data-max'));
-      var min = parseInt($(this).attr('data-min')) || 1;
+    $('#add_barang_amount').on('input', function(e) {
+      e.stopPropagation();
+      // 0,5 7,5
+      this.value = this.value.replace('.', ',');
+      this.value = this.value.replace(/[^0-9\,]/g, '');
+
+      var amount = parseFloat($(this).val());
+      var max = parseFloat($(this).attr('data-max'));
+      var min = parseFloat($(this).attr('data-min')) || 0;
       if (amount > max) {
-        $(this).val(max);
+        let max_value = max.toString().replace('.', ',');
+        $(this).val(max_value);
       }
       if (amount < min) {
-        $(this).val(min);
+        let min_value = min.toString().replace('.', ',');
+        $(this).val(min_value);
       }
     });
 
+    $(document).on('click', '.add_barang_amount_modifier', function() {
+      var $input = $('#add_barang_amount');
+      var val = $input.val() == '' ? 0 : $input.val();
+      var value = parseFloat(val.toString().replaceAll(',', '.'));
+      var min = parseFloat($input.attr('data-min')) || 0;
+      var max = parseFloat($input.attr('data-max'));
+      if ($(this).data('action') === 'plus') {
+        if (max && value >= max) {
+          return;
+        } else {
+          value = value + 1 < max ? value + 1 : max;
+        }
+      } else {
+        value = value > min && value - 1 > min ? value - 1 : min;
+      }
+      value = value.toString().replace('.', ',');
+      $input.val(value);
+      $input.trigger('change');
+    });
+
     $(document).on('click', '#btn_add_item', function(e) {
-      e.preventDefault();
+      try {
+        e.preventDefault();
 
-      var amount = parseInt($('#add_barang_amount').val()) || 0;
-      if (selectedItem == null) {
-        $('#add_barang_item').nextAll('small.text-danger').text('Pilih barang terlebih dahulu');
-        return;
+        var input_amount_value = $('#add_barang_amount').val().toString().replace(',', '.');
+        var amount = parseFloat(input_amount_value) || 0;
+        if (selectedItem == null) {
+          $('#add_barang_item').nextAll('small.text-danger').text('Pilih barang terlebih dahulu');
+          return;
+        }
+        if (amount > selectedItem.stock) {
+          $('#add_barang_item').next('small.text-danger').text('Stok barang kosong');
+          return;
+        }
+        if (amount == 0) {
+          $('#add_barang_amount').closest('.input-group').next('small.text-danger').text('Jumlah barang tidak boleh kosong');
+          return;
+        }
+        var item = {
+          id: selectedItem.id,
+          code: selectedItem.code,
+          name: selectedItem.name,
+          amount: amount,
+          unit: selectedItem.unit,
+          price: selectedItem.price,
+          price_string: selectedItem.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."),
+          total: Math.ceil(amount * selectedItem.price),
+          total_string: Math.ceil(amount * selectedItem.price).toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."),
+        };
+
+
+        var html = "";
+        html += '<div class="row item-row border-bottom py-2" data-code="__code__">';
+        html += '    <div class="col-2">';
+        html += '        <input type="checkbox" class="mr-2 check-item">';
+        html += '        <span class="item-code">__code__</span>';
+        html += '        <input type="hidden" name="items[__code__][id]" value="__id__">';
+        html += '    </div>';
+        html += '    <div class="col-4">';
+        html += '        <span class="item-name">__name__ (__unit__)</span>';
+        html += '    </div>';
+        html += '    <div class="col-1 text-center">';
+        html += '        <span class="item-amount">__amount__</span>';
+        html += '        <input type="hidden" name="items[__code__][amount]" value="__amount__">';
+        html += '    </div>';
+        html += '    <div class="col-2 text-right">';
+        html += '        <span class="item-price text-monospace">__price_string__</span>';
+        html += '    </div>';
+        html += '    <div class="col-2 text-right">';
+        html += '        <span class="item-total text-monospace">__total_string__</span>';
+        html += '    </div>';
+        html += '    <div class="col-1 text-center">';
+        html += '        <span class="text-danger cursor-pointer btn-delete-item"><i class="fas fa-times fa-fw"></i></span>';
+        html += '    </div>';
+        html += '</div>';
+
+        $.each(item, function(key, value) {
+          html = html.replaceAll('__' + key + '__', value);
+        });
+
+        // check if having empty message
+        if ($('.item-list').find('.item-row').length == 0) {
+          $('.item-list').html('');
+        }
+        // check if item already exists
+        let existingItem = $('.item-list').find('.item-row[data-code="' + item.code + '"]');
+        if (existingItem.length > 0) {
+          existingItem.remove();
+        }
+        $('.item-list').append(html);
+
+        $('#add_barang_item').val(null).trigger('change');
+        $('#add_barang_amount').val(1);
+        $('#add_barang_form').find('small.text-danger').text('');
+        amountDisabled(true);
+        selectedItem = null;
+
+        document.dispatchEvent(cart_changes);
+      } catch (e) {
+        console.log(e);
+        swal_error(e.message, 'Terjadi kesalahan');
+        return false;
       }
-      if (amount > selectedItem.stock) {
-        $('#add_barang_item').next('small.text-danger').text('Stok barang kosong');
-        return;
-      }
-      if (amount == 0) {
-        $('#add_barang_amount').closest('.input-group').next('small.text-danger').text('Jumlah barang tidak boleh kosong');
-        return;
-      }
-      var item = {
-        id: selectedItem.id,
-        code: selectedItem.code,
-        name: selectedItem.name,
-        amount: amount,
-        unit: selectedItem.unit,
-        price: selectedItem.price,
-        price_string: selectedItem.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."),
-        total: amount * selectedItem.price,
-        total_string: (amount * selectedItem.price).toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."),
-      };
-
-
-      var html = "";
-      html += '<div class="row item-row border-bottom py-2" data-code="__code__">';
-      html += '    <div class="col-2">';
-      html += '        <input type="checkbox" class="mr-2 check-item">';
-      html += '        <span class="item-code">__code__</span>';
-      html += '        <input type="hidden" name="items[__code__][id]" value="__id__">';
-      html += '    </div>';
-      html += '    <div class="col-4">';
-      html += '        <span class="item-name">__name__ (__unit__)</span>';
-      html += '    </div>';
-      html += '    <div class="col-1 text-center">';
-      html += '        <span class="item-amount">__amount__</span>';
-      html += '        <input type="hidden" name="items[__code__][amount]" value="__amount__">';
-      html += '    </div>';
-      html += '    <div class="col-2 text-right">';
-      html += '        <span class="item-price text-monospace">__price_string__</span>';
-      html += '    </div>';
-      html += '    <div class="col-2 text-right">';
-      html += '        <span class="item-total text-monospace">__total_string__</span>';
-      html += '    </div>';
-      html += '    <div class="col-1 text-center">';
-      html += '        <span class="text-danger cursor-pointer btn-delete-item"><i class="fas fa-times fa-fw"></i></span>';
-      html += '    </div>';
-      html += '</div>';
-
-      $.each(item, function(key, value) {
-        html = html.replaceAll('__' + key + '__', value);
-      });
-
-      // check if having empty message
-      if ($('.item-list').find('.item-row').length == 0) {
-        $('.item-list').html('');
-      }
-      // check if item already exists
-      let existingItem = $('.item-list').find('.item-row[data-code="' + item.code + '"]');
-      if (existingItem.length > 0) {
-        existingItem.remove();
-      }
-      $('.item-list').append(html);
-
-      $('#add_barang_item').val(null).trigger('change');
-      $('#add_barang_amount').val(1);
-      $('#add_barang_form').find('small.text-danger').text('');
-      amountDisabled(true);
-      selectedItem = null;
-
-      document.dispatchEvent(cart_changes);
     });
 
     $(document).on('change', '#check_all_items', function() {
@@ -447,7 +488,7 @@
 
     function amountDisabled(bool) {
       $('#add_barang_amount').prop('disabled', bool);
-      $('#add_barang_amount').closest('.input-group').find('[data-toggle="input-number"]').prop('disabled', bool);
+      $('#add_barang_amount').closest('.input-group').find('.add_barang_amount_modifier').prop('disabled', bool);
       $('#btn_add_item').prop('disabled', bool);
 
     }
