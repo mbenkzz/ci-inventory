@@ -31,6 +31,8 @@ class User extends CI_Model {
 
 	public function getAllUser() {
 		$this->__complete_query();
+    // hide username superuser
+    $this->db->where('username !=', 'superuser');
 		return $this->db->get();
 	}
 
