@@ -1,12 +1,3 @@
--- detail
--- -------------
--- id
--- trans_id
--- item_code
--- item_name
--- amount
--- price
-
 CREATE TABLE detail_transaction (
     `id` SERIAL NOT NULL,
     `trans_id` BIGINT(20) NOT NULL,

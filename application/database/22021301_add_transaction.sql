@@ -1,15 +1,3 @@
---transaction
--------------
---id serial
---code (TR20230213-008) varchar(16) unique
---disc numeric(10,0)
---total numeric(10,0)
---created_at 
---created_by
---deleted_at default null
---deleted_by default null
---delete_reason default null
-
 CREATE TABLE transaction (
     id serial not null,
     `code` varchar(16) not null,
