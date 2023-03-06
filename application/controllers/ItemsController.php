@@ -43,7 +43,8 @@ class ItemsController extends CI_Controller {
 				array(
 					'class' => 'btn btn-primary',
 					'href' => admin_url('items/edit/'.$key->id),
-					'title' => 'Edit'
+					'title' => 'Edit',
+					'target' => '_blank'
 				));
 
 			$button_group = $this->html->generate(
@@ -170,6 +171,11 @@ class ItemsController extends CI_Controller {
 		ajax_only();
 		check_auth('ajax');
 
+		if(!empty($_POST['stock'])) {
+			$_POST['stock'] = str_replace('.', '', $_POST['stock']);
+			$_POST['stock'] = str_replace(',', '.', $_POST['stock']);
+		}
+
 		// validator
 		$this->load->library('validator');
 		$this->validator->set_rules('id', 'Barang', 'required');
@@ -177,6 +183,7 @@ class ItemsController extends CI_Controller {
 		$this->validator->set_rules('unit', 'Satuan', 'required');
 		$this->validator->set_rules('buy_price', 'Harga Beli', 'required|numeric|min[0]');
 		$this->validator->set_rules('sell_price', 'Harga Jual', 'required|numeric|min[0]');
+		$this->validator->set_rules('stock', 'Stok', 'required|numeric|min[0]');
 		$this->validator->set_rules('category_id', 'Kategori', 'required');
 		$this->validator->set_rules('description', 'Deskripsi / Keterangan', 'nullable');
 		if($this->validator->run()) {
