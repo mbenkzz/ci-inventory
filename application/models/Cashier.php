@@ -19,9 +19,9 @@ class Cashier extends CI_Model {
         return $this->db->query($sql); 
     }
 
-    public function generateTransactionCode() {
+    public function generateTransactionCode($date = null) {
         // the format is TR20230213-008
-        $date = date('Ymd');
+        $date = $date ?? date('Ymd');
         $this->db->select('COUNT(*) as total');
         $this->db->from('transaction');
         $this->db->like('code', 'TR'.$date, 'after');
@@ -36,6 +36,12 @@ class Cashier extends CI_Model {
         $this->db->insert('transaction', $data);
         return $this->db->insert_id();
     }
+
+		public function updateTransaction($id, $data = []) {
+				$this->db->where('id', $id);
+				$this->db->update('transaction', $data);
+				return $this->db->affected_rows();
+		}
 
     public function insertTransactionDetail($data = []) {
         $this->db->insert_batch('detail_transaction', $data);
