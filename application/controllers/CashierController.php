@@ -253,15 +253,14 @@ class CashierController extends CI_Controller
 			die('You are not allowed to access this page');
 		}
 
-		
-		$date = 20;
-		while ($date <= 31) :
+		$date = 1;
+		while ($date <= 30) :
 			$strdate = str_pad($date, 2, '0', STR_PAD_LEFT);
 
-			$user_id = $this->db->query('SELECT id FROM users WHERE username = "superuser" LIMIT 1')->row()->id;
+			$user_id = $this->db->query('SELECT id FROM users WHERE username = "superuser" LIMIT 1')->row()->id ?? 1;
 
 			// generate invoice number
-			$transaction_code = $this->cashier->generateTransactionCode("202301$strdate");
+			$transaction_code = $this->cashier->generateTransactionCode("202211$strdate");
 
 			// create timestamp from a date
 			// $timestamp = strtotime;
@@ -270,7 +269,7 @@ class CashierController extends CI_Controller
 				'code' => $transaction_code,
 				'total' => 0,
 				'disc' => 0,
-				'created_at' => strtotime('2023-01-' . $strdate . ' 9:00:00'),
+				'created_at' => "2022-11-$strdate 00:00:00",
 				'created_by' => $user_id,
 				'deleted_at' => null,
 				'deleted_by' => null,
