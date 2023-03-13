@@ -19,6 +19,9 @@
 						<div class="col-12">
 							<?php $this->load->view('admin/dashboard/_bar_chart_sales') ?>
 						</div>
+						<div class="col-12">
+							<?php $this->load->view('admin/dashboard/_bar_chart_profit') ?>
+						</div>
 					</div>
 				</div>
 			</main>

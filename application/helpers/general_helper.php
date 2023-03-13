@@ -61,6 +61,25 @@ function getCurrentDateTime($format = 'Y-m-d H:i:s') {
     return date($format);
 }
 
+function getMonthName($number) {
+	$bulan = [
+		'', // because array index start from 0
+		'Januari',
+		'Februari',
+		'Maret',
+		'April',
+		'Mei',
+		'Juni',
+		'Juli',
+		'Agustus',
+		'September',
+		'Oktober',
+		'November',
+		'Desember'
+	];
+	return $bulan[ (int) $number ];
+}
+
 function dd($data) {
     echo "<pre>";
     var_dump($data);

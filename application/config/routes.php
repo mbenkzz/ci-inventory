@@ -62,6 +62,7 @@ $route['admin_dapur/logout'] = 'authController/logout';
 
 $route['admin_dapur/dashboard'] = 'dashboardController/index';
 $route['admin_dapur/dashboard/api/chart_sales'] = 'dashboardController/get_chart_sales';
+$route['admin_dapur/dashboard/api/chart_profit'] = 'dashboardController/get_chart_profit';
 
 $route['admin_dapur/inventory'] = 'inventoryController/index';
 

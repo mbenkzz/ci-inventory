@@ -1,12 +1,12 @@
 <div class="card mb-4">
 	<div class="card-header">
 		<i class="fas fa-chart-bar mr-1"></i>
-		Jumlah Penjualan per Hari (Daily Sales Count)
+		Jumlah Keuntungan per Hari (Daily Profit Count)
 	</div>
 	<div class="card-body">
 		<div class="row">
 			<div class="col-12">
-				<select id="filter_sales_select_time">
+				<select id="filter_profit_select_time">
 					<option value="recently">10 hari terakhir</option>
 					<option value="this_month">Bulan ini</option>
 					<option value="last_month">Bulan lalu</option>
@@ -14,32 +14,32 @@
 			</div>
 		</div>
 	</div>
-	<div class="card-body"><canvas id="bar_chart_sales" width="100%" height="40"></canvas></div>
+	<div class="card-body"><canvas id="bar_chart_profit" width="100%" height="40"></canvas></div>
 </div>
 <script>
-	var salesChart;
+	var profitChart;
 
 	// Function to update chart data
-	function updateSalesChart() {
+	function updateprofitChart() {
 		// Clear existing data
-		salesChart.data.labels = [];
-		salesChart.data.datasets[0].data = [];
+		profitChart.data.labels = [];
+		profitChart.data.datasets[0].data = [];
 
 		$.ajax({
-			url : "<?= admin_url('dashboard/api/chart_sales') ?>",
+			url : "<?= admin_url('dashboard/api/chart_profit') ?>",
 			method : "GET",
 			data : {
-				type : $('#filter_sales_select_time').val()
+				type : $('#filter_profit_select_time').val()
 			},
 			success : function(data) {
 				// Add new data
 				data.forEach(function(datum) {
-					salesChart.data.labels.push(datum.label);
-					salesChart.data.datasets[0].data.push(datum.count);
+					profitChart.data.labels.push(datum.label);
+					profitChart.data.datasets[0].data.push(datum.count);
 				});
 
 				// Update chart
-				salesChart.update();
+				profitChart.update();
 			}
 		});
 	}
@@ -47,7 +47,7 @@
 	window.addEventListener('load', function() {
 		// Update chart on filter change
 		// Initialize chart data
-		var salesData = {
+		var profitData = {
 			labels: [],
 			datasets: [{
 				label: 'Penjualan',
@@ -59,7 +59,7 @@
 		};
 
 		// Initialize chart options
-		var salesOptions = {
+		var profitOptions = {
 			scales: {
 				xAxes: [{
 					time: {
@@ -88,16 +88,16 @@
 		};
 
 		// Initialize chart
-		salesChart = new Chart(document.getElementById('bar_chart_sales').getContext('2d'), {
+		profitChart = new Chart(document.getElementById('bar_chart_profit').getContext('2d'), {
 			type: 'bar',
-			data: salesData,
-			options: salesOptions
+			data: profitData,
+			options: profitOptions
 		});
 
-		updateSalesChart();
+		updateprofitChart();
 
 		$('#filter_select_time').on('change', function() {
-			updateSalesChart();
+			updateprofitChart();
 		});
 
 	});
