@@ -96,7 +96,7 @@
 
 		updateSalesChart();
 
-		$('#filter_select_time').on('change', function() {
+		$('#filter_sales_select_time').on('change', function() {
 			updateSalesChart();
 		});
 
