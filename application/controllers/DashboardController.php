@@ -25,7 +25,6 @@ class DashboardController extends CI_Controller
 
 		$data = null;
 		$type = $this->input->get('type');
-		
 
 		$query = $this->dashboard->get_chart_sales($type)->result_array();
 		if ($type == 'recently') {

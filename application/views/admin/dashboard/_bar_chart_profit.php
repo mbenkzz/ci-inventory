@@ -50,7 +50,7 @@
 		var profitData = {
 			labels: [],
 			datasets: [{
-				label: 'Penjualan',
+				label: 'Keuntungan',
 				data: [],
 				backgroundColor: 'rgba(54, 162, 235, 0.5)',
 				borderColor: 'rgba(54, 162, 235, 1)',
@@ -96,7 +96,7 @@
 
 		updateprofitChart();
 
-		$('#filter_select_time').on('change', function() {
+		$('#filter_profit_select_time').on('change', function() {
 			updateprofitChart();
 		});
 
