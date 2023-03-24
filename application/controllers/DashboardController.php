@@ -90,7 +90,7 @@ class DashboardController extends CI_Controller
 				$month = getMonthName($value['month']);
 				$data[] = [
 					'label' => "{$value['day']} {$month} {$value['year']}",
-					'count' => (int) $value['total']
+					'count' => (int) $value['count']
 				];
 			}
 		} else if ($type == 'this_month' || $type == 'last_month') {
